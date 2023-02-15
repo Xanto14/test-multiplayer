@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class CreateRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI _roomsName;
-    [SerializeField] private TextMeshProUGUI playerName;
+    //[SerializeField] private TextMeshProUGUI playerName;
     private RoomsCanvases _roomCanvases;
     public void FirstInitialize(RoomsCanvases canvases)
     {
@@ -32,12 +32,12 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         _roomCanvases.CurrentRoomCanvas.Show();
         Debug.Log("Room created successfully, POGGERS!",this);
     }
-    public override void OnJoinedRoom()
-    {
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName.ToString());
-        PhotonNetwork.LocalPlayer.NickName = playerName.text;
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName.ToString());
-    }
+    //public override void OnJoinedRoom()
+    //{
+    //    Debug.Log(PhotonNetwork.LocalPlayer.NickName.ToString());
+    //    PhotonNetwork.LocalPlayer.NickName = playerName.text;
+    //    Debug.Log(PhotonNetwork.LocalPlayer.NickName.ToString());
+    //}
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("Room creation failed RIP Noob!!. The culprit is: "+message, this);

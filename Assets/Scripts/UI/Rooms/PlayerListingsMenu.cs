@@ -12,6 +12,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     [SerializeField] private Transform _content;
     [SerializeField] private PlayerListing _playerListing;
     [SerializeField] private TextMeshProUGUI _readyUpText;
+    [SerializeField] private TextMeshProUGUI playerName;
 
     private List<PlayerListing> _listings = new List<PlayerListing>();
     private RoomsCanvases _roomsCanvases;
@@ -57,6 +58,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
         else
         {
+            PhotonNetwork.LocalPlayer.NickName = playerName.text;
             PlayerListing listing = Instantiate(_playerListing, _content);
             if (listing != null)
             {

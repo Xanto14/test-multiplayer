@@ -3348,6 +3348,7 @@ MonoBehaviour:
   _content: {fileID: 1495767051}
   _playerListing: {fileID: 4152405659800400830, guid: e1c216bc477b0084aa09df7a81c48a96, type: 3}
   _readyUpText: {fileID: 2099756280}
+  playerName: {fileID: 968848960}
 --- !u!114 &1464864781
 MonoBehaviour:
   m_ObjectHideFlags: 0
