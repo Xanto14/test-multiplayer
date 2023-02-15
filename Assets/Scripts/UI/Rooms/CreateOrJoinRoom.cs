@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CreateOrJoinRoom : MonoBehaviour
 {
-    [SerializeField] private CreateRoomMenu _createRoomMenu;
+    [SerializeField] private CreateRoom _createRoomMenu;
     [SerializeField] private RoomListingMenu _roomListingMenu;
     private RoomsCanvases _roomCanvases;
     public void FirstInitialize(RoomsCanvases canvases)

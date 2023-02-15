@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreateRoomMenu : MonoBehaviourPunCallbacks
+public class CreateRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI _roomsName;
 
