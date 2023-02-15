@@ -24,13 +24,19 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         options.BroadcastPropsChangeToAll = true;
         options.MaxPlayers = 4;
         PhotonNetwork.JoinOrCreateRoom(_roomsName.text, options, TypedLobby.Default);
-        PhotonNetwork.LocalPlayer.NickName = playerName.text;
+        
 
     }
     public override void OnCreatedRoom()
     {
         _roomCanvases.CurrentRoomCanvas.Show();
         Debug.Log("Room created successfully, POGGERS!",this);
+    }
+    public override void OnJoinedRoom()
+    {
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName.ToString());
+        PhotonNetwork.LocalPlayer.NickName = playerName.text;
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName.ToString());
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
