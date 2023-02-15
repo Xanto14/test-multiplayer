@@ -77,7 +77,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
             }
             else
             {
-                _readyUpText.text = "Not Ready";
+                _readyUpText.text = "Ready?";
             }
         }
 
@@ -121,7 +121,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 
     public void OnClick_ReadyUp()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient)
         {
             SetReadyUp(!_ready);
             base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, _ready);
