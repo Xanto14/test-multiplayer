@@ -45,7 +45,7 @@ public class Fly : MonoBehaviour
     private Rigidbody rigidBody;
     private float force = 500;
     private float maxPlayerVelocity = 900;
-    private float MinPlayerVelocity = 0;
+    private float minPlayerVelocity = 0;
 
     public float Force
     {
@@ -88,20 +88,20 @@ public class Fly : MonoBehaviour
         
         do
         {
-            rigidBody.AddRelativeForce(directions[0] * (-force), ForceMode.Acceleration);
-        } while (velocities[0] > MinPlayerVelocity && velocities[1] > MinPlayerVelocity &&
-                 velocities[1] > MinPlayerVelocity);
+            rigidBody.AddRelativeForce(directions[0] * (-Force), ForceMode.Acceleration);
+        } while (velocities[0] > minPlayerVelocity && velocities[1] > minPlayerVelocity &&
+                 velocities[1] > minPlayerVelocity);
     }
 
     public void Pivoter(int signe)
     {
-        rigidBody.AddRelativeForce(directions[1]*(force*signe),ForceMode.Acceleration);
+        rigidBody.AddRelativeForce(directions[1]*(Force*signe),ForceMode.Acceleration);
         float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
         for (int i = 0; i < velocities.Length; i++)
         {
-            if (velocities[i] > maxPlayerVelocity)
+            if (velocities[i] > MaxPlayerVelocity)
             {
-                rigidBody.AddRelativeForce(-(directions[0]) * (maxPlayerVelocity - velocities[i]), ForceMode.Force);
+                rigidBody.AddRelativeForce(-(directions[0]) * (MaxPlayerVelocity - velocities[i]), ForceMode.Force);
             }
         }
 

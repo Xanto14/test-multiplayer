@@ -34,7 +34,7 @@ public class BananaSlowDown : MonoBehaviour
         fly.Avancer();
     }
 
-    public void ReturnToNormalSpeed()
+    private void ReturnToNormalSpeed()
     {
         Debug.Log("La fonction ReturnToNormalSpeed a été appelée");
         fly.Force *= brake;
