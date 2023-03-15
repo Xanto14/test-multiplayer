@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &513365600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513365601}
+  m_Layer: 0
+  m_Name: TileGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513365601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513365600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &763858004
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,6 +361,7 @@ GameObject:
   - component: {fileID: 1683535772}
   - component: {fileID: 1683535771}
   - component: {fileID: 1683535773}
+  - component: {fileID: 1683535774}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -344,16 +376,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683535770}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22c3ad4d19107e5429b484578c0720db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainTilePrefab: {fileID: 2087993478}
-  terrainSize: {x: 10, y: 1, z: 10}
-  radiusToRender: 2
+  tuilePrefab: {fileID: 2087993478}
+  terrainTaille: {x: 20, y: 1, z: 20}
+  renderDistance: 5
   gameTransforms: []
-  playerTransform: {fileID: 763858008}
+  joueurTransform: {fileID: 763858008}
 --- !u!4 &1683535772
 Transform:
   m_ObjectHideFlags: 0
@@ -383,7 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nPlayers: 1
   movement: {fileID: 0}
-  movementInputs: 77000000610000007300000064000000
+  movementInputs: 7700000061000000730000006400000020000000
   movementActions:
   - m_PersistentCalls:
       m_Calls:
@@ -441,6 +473,45 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1683535774}
+        m_TargetAssemblyTypeName: TileController, Assembly-CSharp
+        m_MethodName: SpawnTile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1683535774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683535770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292c2372f2f884b4c986d1b0c390886a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSize: 10
+  tileList:
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  - {fileID: 8652890635047048009, guid: 4b4c4e24489cea84c97e12bcd2b80fc0, type: 3}
+  - {fileID: 8223310329540068543, guid: 9436a8d40c4a0544e93c2e17ba5b3f15, type: 3}
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  - {fileID: 6315758145283665210, guid: ff94b3bbd9622184889a5ab65417dfc8, type: 3}
+  tileGenerator: {fileID: 513365600}
 --- !u!1 &1973024701
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +698,7 @@ Transform:
   m_GameObject: {fileID: 2087993478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
