@@ -226,7 +226,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 6f149f7fb767949438086b25c38c0794, type: 3}
+  m_Texture: {fileID: 2800000, guid: 8f4fc33cd685ec34898fd1204cd0dc9d, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -309,7 +309,7 @@ Canvas:
   m_GameObject: {fileID: 712027323}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

@@ -23,6 +23,7 @@ public class OwnershipTransfer : MonoBehaviourPun, IPunOwnershipCallbacks
         //On peut ajouter des vérifications ici
 
         base.photonView.TransferOwnership(requestingPlayer);
+        
     }
 
     public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
