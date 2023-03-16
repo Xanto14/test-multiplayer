@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 public class TileController : MonoBehaviour
 {
     private int startNumber = 6;
-    
+    private int turns = 0;
+   
     [SerializeField] private int tileSize = 10;
 
     [SerializeField] private List<GameObject> tileList;
@@ -48,6 +49,26 @@ public class TileController : MonoBehaviour
 
     private int Rnd()
     {
-        return Random.Range(0, 10);
+        int r = Random.Range(0, 10);
+        if (r==1)
+        {
+            turns++;
+            if (turns>1)
+            {
+                r = 2;
+                turns = 0;
+            }
+        }
+        else if (r == 2)
+        {
+            turns--;
+            if (turns<-1)
+            {
+                r = 1;
+                turns = 0;
+            }
+        }
+
+        return r;
     }
 }
