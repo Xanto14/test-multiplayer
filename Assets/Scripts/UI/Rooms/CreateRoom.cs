@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class CreateRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI _roomsName;
+    [SerializeField] private Slider _maxPlayerSlider;
     //[SerializeField] private TextMeshProUGUI playerName;
     private RoomsCanvases _roomCanvases;
     public void FirstInitialize(RoomsCanvases canvases)
@@ -22,7 +23,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             return;
         RoomOptions options = new RoomOptions();
         options.BroadcastPropsChangeToAll = true;
-        options.MaxPlayers = 4;
+        options.MaxPlayers = (byte) _maxPlayerSlider.value;
         PhotonNetwork.JoinOrCreateRoom(_roomsName.text, options, TypedLobby.Default);
         
 
