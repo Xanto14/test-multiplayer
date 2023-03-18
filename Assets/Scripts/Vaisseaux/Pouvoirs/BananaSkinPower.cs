@@ -13,10 +13,10 @@ public class BananaSkinPower : MonoBehaviour
     private Vector3 force;
     
     private Rigidbody rbBanana;
-    private void Awake()
+    /*private void Awake()
     {
         rbBanana = GetComponent<Rigidbody>();
-    }
+    }*/
     
     private void Update()
     {
@@ -30,15 +30,16 @@ public class BananaSkinPower : MonoBehaviour
         {
             GameObject banana = Instantiate(objectToCreate, exit.position, transform.rotation);
             Debug.Log("La banane a été créée");
-            ThrowBanana();
+            ThrowBanana(banana);
             timeoutTimeElapsed = 0;
         }
     }
 
-    private void ThrowBanana()
+    private void ThrowBanana(GameObject banana)
     {
         Debug.Log("ThrowBanana a été appelée");
         force = new Vector3(0, 0, 1) * forceToThrow;
+        rbBanana = banana.GetComponent<Rigidbody>();
         rbBanana.AddRelativeForce(force);
         Debug.Log("La banane a été lancée");
         
