@@ -11,7 +11,7 @@ public class TileController : MonoBehaviour
     private int startNumber = 6;
     private int turns = 0;
    
-    [SerializeField] private int tileSize = 10;
+    [SerializeField] private int tileSize = 5;
 
     [SerializeField] private List<GameObject> tileList;
     [SerializeField] private GameObject tileGenerator;
@@ -49,7 +49,7 @@ public class TileController : MonoBehaviour
 
     private int Rnd()
     {
-        int r = Random.Range(0, 10);
+        int r = Random.Range(0, 5);
         if (r==1)
         {
             turns++;

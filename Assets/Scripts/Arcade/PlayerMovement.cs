@@ -14,8 +14,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3.back,
     };private static  Quaternion[] rotations =
     {
-        Quaternion.Euler(0,0.1f,0),
-        Quaternion.Euler(0,-0.1f,0)
+        Quaternion.Euler(0,0.2f,0),
+        Quaternion.Euler(0,-0.2f,0)
     };
 
     // Représente la direction dans lequel le GameObject doit se déplacer
@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        
+        speed += 0.001f;
         if (movementDirection != Vector3.zero)
         {
             transform.Translate(movementDirection * ( speed * Time.deltaTime)); // + performant

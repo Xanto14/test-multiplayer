@@ -8,7 +8,7 @@ public class TileManager : MonoBehaviour {
     [SerializeField]
     private GameObject tuilePrefab = null;
     [SerializeField]
-    private Vector3 terrainTaille = new Vector3(20, 1, 20);
+    private Vector3 terrainTaille = new Vector3(20, 0.1f, 20);
     [SerializeField]
     private int renderDistance = 5;
     [SerializeField]
