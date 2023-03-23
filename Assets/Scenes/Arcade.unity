@@ -469,6 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63ec66af70e25b4094f5dde270c4f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   speed: 50
   rotationSpeed: 1
 --- !u!54 &763858010
@@ -487,6 +488,10 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+=======
+  speed: 20
+  rotationSpeed: 1
+>>>>>>> 87ae666eb7f75010017a23a76ab803a4120ed920
 --- !u!1 &1406927932
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPlayers: 1
-  movement: {fileID: 0}
+  movement: {fileID: 763858009}
   movementInputs: 7700000061000000730000006400000020000000
   movementActions:
   - m_PersistentCalls:

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 //La classe Fly gère les déplacements des vaisseaux
 //selon la direction du mouvement et la force du moteur.
 public class Fly : MonoBehaviour
@@ -43,9 +45,13 @@ public class Fly : MonoBehaviour
     }
     */
     private Rigidbody rigidBody;
-    private float force = 500;
-    private float maxPlayerVelocity = 900;
+    private float force = 2000;
+    private float maxPlayerVelocity = 4000;
     private float minPlayerVelocity = 0;
+    private Acces accès;
+    enum ÉtatsVaisseau {arrêté, enMouvement}
+    private ÉtatsVaisseau état = ÉtatsVaisseau.arrêté;
+    
 
     public float Force
     {
@@ -61,6 +67,7 @@ public class Fly : MonoBehaviour
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
+        accès = GetComponent<Acces>();
     }
     
     private static Vector3[] directions =
@@ -68,9 +75,30 @@ public class Fly : MonoBehaviour
         Vector3.forward, Vector3.right,
     };
 
+    public void BougerEnAvant()
+    {
+        if (accès.move.action.WasPressedThisFrame() && état == ÉtatsVaisseau.arrêté)
+        {
+            Avancer();
+        }
+        else if (accès.move.action.WasReleasedThisFrame() && état == ÉtatsVaisseau.enMouvement)
+        {
+            Freiner();
+        }
+    }
+
+    public void ArreterBouger()
+    {
+        if (état == ÉtatsVaisseau.enMouvement)
+        {
+            Freiner();
+        }
+    }
+
     public void Avancer()
     {
-        rigidBody.AddRelativeForce(directions[0]*Force,ForceMode.Acceleration); //applique la force sur le vaisseau
+        état = ÉtatsVaisseau.enMouvement;
+        rigidBody.AddRelativeForce(directions[0]*(Force),ForceMode.Acceleration); //applique la force sur le vaisseau
         float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };  //tableau de la vitesse dans chaque direction
         for (int i = 0; i < velocities.Length; i++)
         {
@@ -79,18 +107,19 @@ public class Fly : MonoBehaviour
                 rigidBody.AddRelativeForce(-(directions[0]) * (MaxPlayerVelocity - velocities[i]), ForceMode.Acceleration);
             }
         }
-        
     }
 
     public void Freiner()
     {
         float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
+        état = ÉtatsVaisseau.arrêté;
         
         do
         {
             rigidBody.AddRelativeForce(directions[0] * (-Force), ForceMode.Acceleration);
         } while (velocities[0] > minPlayerVelocity && velocities[1] > minPlayerVelocity &&
                  velocities[1] > minPlayerVelocity);
+        
     }
 
     public void Pivoter(int signe)
