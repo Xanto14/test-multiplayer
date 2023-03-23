@@ -42,10 +42,14 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
                 int index = _listings.FindIndex(x=>x.RoomInfo.Name == info.Name);
                 if (index == -1)
                 {
+                    Debug.Log("ROOM AJOUTÉ A LISTE 1");
                     RoomListing listing = Instantiate(_roomListing, _content);
-            
-                    if(listing!= null)
+                    Debug.Log("ROOM AJOUTÉ A LISTE 2");
+
+
+                    if (listing!= null)
                     {
+                        Debug.Log("ROOM pas null");
                         listing.SetRoomInfo(info);
                         _listings.Add(listing);
                     }

@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
+  rotationSpeed: 1
 --- !u!1 &1406927932
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPlayers: 1
-  movement: {fileID: 0}
+  movement: {fileID: 763858009}
   movementInputs: 7700000061000000730000006400000020000000
   movementActions:
   - m_PersistentCalls:
