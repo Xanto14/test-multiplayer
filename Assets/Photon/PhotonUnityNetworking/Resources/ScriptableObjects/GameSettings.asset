@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c79a9e613cf134097081a19374203b, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  _gameVersion: 0.0.0
-  _nickName: Xanto
+  _nickName: Guest

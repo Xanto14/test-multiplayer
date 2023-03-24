@@ -13,7 +13,11 @@ public class TestConnect : MonoBehaviourPunCallbacks
         PhotonNetwork.SendRate = 20; //par default cest 20
         PhotonNetwork.SerializationRate = 10; //par default cest 10
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.NickName= MasterManager.GameSettings.NickName;
+        if (PhotonNetwork.NickName==string.Empty)
+        {
+         PhotonNetwork.NickName= MasterManager.GameSettings.NickName;
+        }
+        
         PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
         PhotonNetwork.ConnectUsingSettings();
     }
