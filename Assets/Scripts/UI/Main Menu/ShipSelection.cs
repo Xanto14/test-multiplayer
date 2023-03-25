@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,11 +7,13 @@ using UnityEngine.UI;
 
 public class ShipSelection : MonoBehaviour
 {
+    private ExitGames.Client.Photon.Hashtable myCustomProperties = new ExitGames.Client.Photon.Hashtable();
     [SerializeField] private Button nextButton;
     [SerializeField] private Button previousButton;
 
     private int currentShip;
-    private void Awake()
+    //public int CurrentShip{ get { return currentShip; } }
+private void Awake()
     {
         SelectShip(0);
     }
@@ -27,5 +30,12 @@ public class ShipSelection : MonoBehaviour
     {
         currentShip += choix;
         SelectShip(currentShip);
+    }
+
+    public void OnClick_BindShip()
+    {
+        myCustomProperties["ShipNumber"] = currentShip;
+        PhotonNetwork.LocalPlayer.CustomProperties = myCustomProperties;
+        PhotonNetwork.SetPlayerCustomProperties(myCustomProperties);
     }
 }

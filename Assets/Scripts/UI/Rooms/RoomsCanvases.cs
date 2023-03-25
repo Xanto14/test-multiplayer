@@ -13,6 +13,9 @@ public class RoomsCanvases : MonoBehaviour
     [SerializeField] private MainMenuManager _mainMenuManager;
     public MainMenuManager MainMenuManager { get { return _mainMenuManager; } }
 
+    [SerializeField] private JoinMenuManager _joinMenuManager;
+    public JoinMenuManager JoinMenuManager { get { return _joinMenuManager; } }
+
     private void Awake()
     {
         FirstInitialize();
@@ -23,5 +26,6 @@ public class RoomsCanvases : MonoBehaviour
         CurrentRoomCanvas.FirstInitialize(this);
         CreateOrJoinRoom.FirstInitialize(this);
         MainMenuManager.FirstInitialize(this);
+        JoinMenuManager.FirstInitialize(this);
     }
 }
