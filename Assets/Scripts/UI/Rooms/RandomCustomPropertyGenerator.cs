@@ -12,11 +12,11 @@ public class RandomCustomPropertyGenerator : MonoBehaviour
     private void SetCustomNumber()
     {
         System.Random random = new System.Random();
-        int result= random.Next(0, 99);
+        int result= random.Next(0, 2);
 
         _text.text = result.ToString();
 
-        _myCustomProperties["RandomNumber"]=result;
+        _myCustomProperties["ShipNumber"]=result;
         PhotonNetwork.SetPlayerCustomProperties(_myCustomProperties);
         //PhotonNetwork.LocalPlayer.CustomProperties = _myCustomProperties;
     }
