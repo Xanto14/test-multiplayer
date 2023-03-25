@@ -51,7 +51,10 @@ public class Fly : MonoBehaviour
     private Acces accès;
     enum ÉtatsVaisseau {arrêté, enMouvement}
     private ÉtatsVaisseau état = ÉtatsVaisseau.arrêté;
-    
+    enum PivotVaisseau {nonPivot, ouiPivot}
+    private PivotVaisseau pivot = PivotVaisseau.nonPivot;
+
+    [SerializeField] private Transform enfant;
 
     public float Force
     {
@@ -83,7 +86,8 @@ public class Fly : MonoBehaviour
         }
         else if (accès.move.action.WasReleasedThisFrame() && état == ÉtatsVaisseau.enMouvement)
         {
-            Freiner();
+            //Freiner();
+            Décélérer();
         }
     }
 
@@ -94,7 +98,7 @@ public class Fly : MonoBehaviour
             Freiner();
         }
     }
-
+    
     public void Avancer()
     {
         état = ÉtatsVaisseau.enMouvement;
@@ -124,17 +128,39 @@ public class Fly : MonoBehaviour
 
     public void Pivoter(int signe)
     {
-        rigidBody.AddRelativeForce(directions[1]*(Force*signe),ForceMode.Acceleration);
-        float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
-        for (int i = 0; i < velocities.Length; i++)
+        if ((accès.turnRight.action.WasPressedThisFrame() || accès.turnLeft.action.WasPressedThisFrame()) && pivot == PivotVaisseau.nonPivot)
         {
-            if (velocities[i] > MaxPlayerVelocity)
+            pivot = PivotVaisseau.ouiPivot;
+            enfant.Rotate(0, 0, 3 * -signe, Space.Self);
+            rigidBody.AddRelativeForce(directions[1] * ((30 * Force / 100) * signe), ForceMode.Acceleration);
+            float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
+            for (int i = 0; i < velocities.Length; i++)
             {
-                rigidBody.AddRelativeForce(-(directions[0]) * (MaxPlayerVelocity - velocities[i]), ForceMode.Force);
+                if (velocities[i] > MaxPlayerVelocity)
+                {
+                    rigidBody.AddRelativeForce(-(directions[0]) * (MaxPlayerVelocity - velocities[i]), ForceMode.Force);
+                }
             }
         }
-
+        else if ((accès.turnRight.action.WasReleasedThisFrame() || accès.turnLeft.action.WasReleasedThisFrame()) &&
+                 pivot == PivotVaisseau.ouiPivot)
+        {
+            pivot = PivotVaisseau.nonPivot;
+        }
     }
+
+    public void Décélérer()
+    {
+        float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
+        état = ÉtatsVaisseau.arrêté;
+        
+        do
+        {
+            rigidBody.AddRelativeForce(directions[0] * (-(90*Force/100)), ForceMode.Acceleration);
+        } while (velocities[0] > minPlayerVelocity && velocities[1] > minPlayerVelocity &&
+                 velocities[1] > minPlayerVelocity);
+    }
+    
     /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.W)) //touche appuyée sur le clavier

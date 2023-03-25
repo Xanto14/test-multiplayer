@@ -75,7 +75,7 @@
                 {
                     "name": "",
                     "id": "2d561530-f74d-48d3-aa2a-1c1d6bc6ff55",
-                    "path": "<XInputController>/leftStick/up",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "XboxController",
