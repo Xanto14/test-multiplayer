@@ -19,8 +19,13 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     }
     public void OnClick_CreateRoom()
     {
+        Debug.Log("clické");
         if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("pas connecté");
             return;
+        }
+        Debug.Log("connevté");
         RoomOptions options = new RoomOptions();
         options.BroadcastPropsChangeToAll = true;
         options.MaxPlayers = (byte) _maxPlayerSlider.value;
@@ -32,6 +37,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         _roomCanvases.CurrentRoomCanvas.Show();
         Debug.Log("Room created successfully, POGGERS!",this);
+        _roomCanvases.CreateOrJoinRoom.Hide();
     }
     //public override void OnJoinedRoom()
     //{

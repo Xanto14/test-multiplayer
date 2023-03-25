@@ -10,7 +10,14 @@ public class NameMenu : MonoBehaviour
     public void OnClick_SetName()
     {
         //Synchro du nom dans la boite avec celui du joueur sur le server
-        PhotonNetwork.LocalPlayer.NickName = playerName.text;
+        if(!string.IsNullOrEmpty(playerName.text))
+        {
+            PhotonNetwork.LocalPlayer.NickName = playerName.text;
+        }
+
+        Debug.Log("playerName: [" + playerName.text + "]");
+        Debug.Log("Nickname: [" + playerName.text + "]");
+
 
     }
 
