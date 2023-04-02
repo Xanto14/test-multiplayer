@@ -19,4 +19,12 @@ public class GameSettings : ScriptableObject
             return _nickName + valeur.ToString();
         }
     }
+    [SerializeField] private int ship;
+    public int Ship
+    {
+        get
+        {
+            return ship;
+        }
+    }
 }
