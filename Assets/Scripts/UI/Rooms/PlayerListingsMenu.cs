@@ -125,7 +125,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient)
         {
-            SetReadyUp(!_ready);
+            //SetReadyUp(!_ready);
             base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, _ready);
         }
     }
