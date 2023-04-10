@@ -19,6 +19,8 @@ public class ComportementCanon : MonoBehaviour
 
    private Rigidbody rbCanon;
    private Rigidbody rbProjectile;
+
+   private Transform target;
    
    private void Start()
    {
@@ -29,6 +31,8 @@ public class ComportementCanon : MonoBehaviour
    {
       if (other.gameObject.CompareTag("Player"))
       {
+         target = other.transform;
+         
          if (état == ÉtatCanon.auRepos)
          {
             état = ÉtatCanon.enAttaque;
@@ -43,14 +47,16 @@ public class ComportementCanon : MonoBehaviour
       
       if (état == ÉtatCanon.enAttaque && timeElapsed >= canonSecondsTimeout)
       {
+         //Rotation du canon
+         rbCanon.transform.LookAt(target);
+         
          //Créer un projectile
          GameObject projectile = Instantiate(objectToCreate, exit.position, transform.rotation);
+         
          //Tirer un projectile
          force = new Vector3(0, 0, 1) * forceToShoot;
          rbProjectile = projectile.GetComponent<Rigidbody>();
          rbProjectile.AddRelativeForce(force);
-         //Rotation du canon
-         //prendre la position du vaisseau, calculer l'angle entre le canon et le vaisseau, et faire une rotation du canon un peu plus grande
          
          timeElapsed = 0;
       }
