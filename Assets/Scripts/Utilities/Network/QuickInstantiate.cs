@@ -12,11 +12,20 @@ public class QuickInstantiate : MonoBehaviour
     {
         //Spawn les cubes des différents joueurs randomly de 3 a -3 pour pas qu'ils soient stacked
         Vector2 offset = Random.insideUnitSphere * 3f;
-        Vector3 position= new Vector3(transform.position.x + offset.x,transform.position.y + offset.y, transform.position.z);
-
         Player[] listeJoueurs = PhotonNetwork.PlayerList;
-        int ship = (int) PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
+        int index = 0;
+        while (PhotonNetwork.LocalPlayer!=listeJoueurs[index])
+        {
+            index++;
+        }
+        Vector3 position= new Vector3(transform.position.x + offset.x,transform.position.y + offset.y, transform.position.z);
+        //spawn a la position de l'index de la liste de postions de spawn
+        
+        int ship = (int)PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
 
-        MasterManager.NetworkInstantiate(prefabs[ship], position, Quaternion.identity);
+        GameObject vaisseau =MasterManager.NetworkInstantiate(prefabs[ship], position, Quaternion.identity);
+        vaisseau.GetComponent<RotationVaisseau>().enabled = false;
+        vaisseau.GetComponent<ChangeShipIcon>().enabled = false;
+        vaisseau.GetComponent<ShipMenuAnimation>().enabled = false;
     }
 }
