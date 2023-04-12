@@ -85,8 +85,7 @@ public class HoverMotor : MonoBehaviour
         }
 
         carRigidbody.transform.Rotate(new Vector3(0f, smoothedTurn * turnSpeed, 0f));
-
-        speed += 0.001f;
+        
     }
 
 }
