@@ -3733,6 +3733,10 @@ PrefabInstance:
       propertyPath: iconHolder
       value: 
       objectReference: {fileID: 60374954}
+    - target: {fileID: 6063488368956417204, guid: bfb7650e1ee70824abd35d8d0513e065, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6203759828986522174, guid: bfb7650e1ee70824abd35d8d0513e065, type: 3}
       propertyPath: m_Name
       value: Giga Podracer
