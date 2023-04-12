@@ -8,67 +8,96 @@ using Random = UnityEngine.Random;
 
 public class TileController : MonoBehaviour
 {
-    private int startNumber = 6;
-    private int turns = 0;
-   
-    [SerializeField] private int tileSize = 5;
+    private int startNumber = 100;
+    private int turns;
+
+    [SerializeField] private int tileSize = 30;
 
     [SerializeField] private List<GameObject> tileList;
     [SerializeField] private GameObject tileGenerator;
-    
+    [SerializeField] private List<GameObject> spawnedTiles;
 
     private void Start()
     {
         for (int i = 0; i < startNumber; i++)
         {
-            SpawnTile();
+            SpawnTile(2);
         }
     }
 
     public void SpawnTile()
     {
         int tileGenerated = Rnd();
-        Instantiate(tileList[tileGenerated], tileGenerator.transform.position, tileGenerator.transform.rotation);
-        tileGenerator.transform.rotation *= Quaternion.Euler(0, GetRotation(tileGenerated), 0);
-        tileGenerator.transform.position += tileGenerator.transform.forward * tileSize;
+
+        spawnedTiles.Add(Instantiate(tileList[tileGenerated], tileGenerator.transform.position,
+            tileGenerator.transform.rotation));
+        
+        
+        ApplyRotationAndMovementToGenerator(tileGenerated);
+        ApplyMovementCorrection(tileGenerated);
+    }
+    
+    public void SpawnTile(int t)
+    {
+       spawnedTiles.Add( Instantiate(tileList[t], tileGenerator.transform.position,
+            tileGenerator.transform.rotation));
+        
+        ApplyRotationAndMovementToGenerator(t);
+        ApplyMovementCorrection(t);
     }
 
     private int GetRotation(int i)
     {
-        int deg = 0;
-        if (i == 1)
+        var deg = i switch
         {
-            deg = 270;
-        }
-        else if (i == 2)
-        {
-            deg = 90;
-        }
+            0 => -45,
+            1 => 45,
+            _ => 0
+        };
         return deg;
     }
 
-    private int Rnd()
+    private void ApplyRotationAndMovementToGenerator(int tile)
     {
-        int r = Random.Range(0, 5);
-        if (r==1)
+        tileGenerator.transform.rotation *= Quaternion.Euler(0, GetRotation(tile), 0);
+        tileGenerator.transform.position += tileGenerator.transform.forward * tileSize;
+    }
+    private void ApplyMovementCorrection(int tile)
+    {
+        if (tile == 1)
         {
-            turns++;
-            if (turns>1)
-            {
-                r = 2;
-                turns = 0;
-            }
+            tileGenerator.transform.position += tileGenerator.transform.right * -15;
+            tileGenerator.transform.position += tileGenerator.transform.forward * 35;
         }
-        else if (r == 2)
+        else if (tile == 0)
         {
-            turns--;
-            if (turns<-1)
+            tileGenerator.transform.position += tileGenerator.transform.right * 15;
+            tileGenerator.transform.position += tileGenerator.transform.forward * 35;
+        }
+    }
+    private int Rnd()
+{
+    var r = Random.Range(0, 10);
+    switch (r)
+    {
+        case 0:
+            turns++;
+            if (turns > 2)
             {
                 r = 1;
                 turns = 0;
             }
-        }
-
-        return r;
+            break;
+        case 1:
+            turns--;
+            if (turns < -2)
+            {
+                r = 0;
+                turns = 0;
+            }
+            break;
     }
+
+    return r;
+}
 }
