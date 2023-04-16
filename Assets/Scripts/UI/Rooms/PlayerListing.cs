@@ -14,6 +14,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     public Player Player { get; private set; }
     public bool Ready = false;
+    [SerializeField]
     public void SetPlayerInfo(Player player)
     {
         Player = player;
