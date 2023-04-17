@@ -45,8 +45,8 @@ public class Fly : MonoBehaviour
     }
     */
     private Rigidbody rigidBody;
-    private float force = 2000;
-    private float maxPlayerVelocity = 4000;
+    private float force = 60000;
+    private float maxPlayerVelocity = 90000;
     private float minPlayerVelocity = 0;
     private Acces accès;
     enum ÉtatsVaisseau {arrêté, enMouvement}
