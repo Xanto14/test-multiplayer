@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class TileController : MonoBehaviour
 {
-    private int startNumber = 100;
+    private int startNumber = 5;
     private int turns;
 
     [SerializeField] private int tileSize = 30;
