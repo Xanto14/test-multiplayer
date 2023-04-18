@@ -15,7 +15,7 @@ public class TileController : MonoBehaviour
 
     [SerializeField] private List<GameObject> tileList;
     [SerializeField] private GameObject tileGenerator;
-    [SerializeField] private List<GameObject> spawnedTiles;
+    public List<GameObject> spawnedTiles;
 
     private void Start()
     {
@@ -31,17 +31,16 @@ public class TileController : MonoBehaviour
 
         spawnedTiles.Add(Instantiate(tileList[tileGenerated], tileGenerator.transform.position,
             tileGenerator.transform.rotation));
-        
-        
+
         ApplyRotationAndMovementToGenerator(tileGenerated);
         ApplyMovementCorrection(tileGenerated);
     }
-    
+
     public void SpawnTile(int t)
     {
-       spawnedTiles.Add( Instantiate(tileList[t], tileGenerator.transform.position,
+        spawnedTiles.Add(Instantiate(tileList[t], tileGenerator.transform.position,
             tileGenerator.transform.rotation));
-        
+
         ApplyRotationAndMovementToGenerator(t);
         ApplyMovementCorrection(t);
     }
@@ -62,6 +61,7 @@ public class TileController : MonoBehaviour
         tileGenerator.transform.rotation *= Quaternion.Euler(0, GetRotation(tile), 0);
         tileGenerator.transform.position += tileGenerator.transform.forward * tileSize;
     }
+
     private void ApplyMovementCorrection(int tile)
     {
         if (tile == 1)
@@ -75,29 +75,37 @@ public class TileController : MonoBehaviour
             tileGenerator.transform.position += tileGenerator.transform.forward * 35;
         }
     }
-    private int Rnd()
-{
-    var r = Random.Range(0, 10);
-    switch (r)
+
+    public void DestroyFirstTile()
     {
-        case 0:
-            turns++;
-            if (turns > 2)
-            {
-                r = 1;
-                turns = 0;
-            }
-            break;
-        case 1:
-            turns--;
-            if (turns < -2)
-            {
-                r = 0;
-                turns = 0;
-            }
-            break;
+        Destroy(spawnedTiles[0]);
     }
 
-    return r;
-}
+    private int Rnd()
+    {
+        var r = Random.Range(0, tileList.Count);
+        switch (r)
+        {
+            case 0:
+                turns++;
+                if (turns > 2)
+                {
+                    r = 1;
+                    turns = 0;
+                }
+
+                break;
+            case 1:
+                turns--;
+                if (turns < -2)
+                {
+                    r = 0;
+                    turns = 0;
+                }
+
+                break;
+        }
+
+        return r;
+    }
 }
