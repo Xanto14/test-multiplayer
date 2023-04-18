@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: e4266cde13da6314595e816e57b37d22
+  - enabled: 1
+    path: Assets/Scenes/Arcane.unity
+    guid: 14402bc2c6c1bcf4880018201dbfb9f5
   m_configObjects: {}
