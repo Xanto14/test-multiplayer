@@ -10,18 +10,42 @@ public class TriggerManager : MonoBehaviour
     [SerializeField] private GameObject tileTrigger;
     private int tileAmountToSpawn = 10;
     private TileController tileController;
+    private GameEventManager gameEventManager;
 
     private void Awake()
     {
         tileController = gameManager.GetComponent<TileController>();
+        gameEventManager = gameManager.GetComponent<GameEventManager>();
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        for (int i = 0; i < tileAmountToSpawn; i++)
+        if(other.gameObject.layer == 6)
         {
-            tileController.SpawnTile();
+            for (int i = 0; i < tileAmountToSpawn; i++)
+            {
+                tileController.SpawnTile();
+            }
+            Instantiate(tileTrigger, tileController.spawnedTiles.Last().transform.position,tileController.spawnedTiles.Last().transform.rotation);
         }
-        Instantiate(tileTrigger, tileController.spawnedTiles.Last().transform.position,tileController.spawnedTiles.Last().transform.rotation);
+        
+        if(other.gameObject.layer == 7)
+        {
+            gameEventManager.ModifyPlayerSpeed(1.5f);
+        }
+    }
+    
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.layer == 7)
+        {
+            gameEventManager.ModifyPlayerSpeed(1f);
+        }
+        else
+        {
+            gameEventManager.ModifyPlayerSpeed(0.5f);
+        }
     }
 }
