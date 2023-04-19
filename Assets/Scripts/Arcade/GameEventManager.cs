@@ -79,6 +79,8 @@ public class GameEventManager : MonoBehaviour
     
     public void OnClickLoadScene(int scene)
     {
+        if(Time.timeScale==0f)
+            Time.timeScale = 1f;
         SceneManager.LoadScene(scene);
     }
     
