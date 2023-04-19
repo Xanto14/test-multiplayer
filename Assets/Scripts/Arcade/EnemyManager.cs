@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,18 +10,26 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject gameManager;
     private List<GameObject> targetObjects;
     private TileController tileController;
+    private GameEventManager gameEventManager;
+    private int playerLayer = 3;
+
     private void Awake()
     {
         // Get a reference to the sphere object
         tileController = gameManager.GetComponent<TileController>();
+        gameEventManager = gameManager.GetComponent<GameEventManager>();
         targetObjects = tileController.spawnedTiles;
     }
+
     private void Update()
     {
+        if (!gameEventManager.IsPlaying)
+            return;
+
         // If there are no target objects in the list, return
         if (targetObjects.Count == 0)
             return;
-        
+
         // Calculate the direction to the current target object
         Vector3 direction = targetObjects[1].transform.position - gameObject.transform.position;
 
@@ -33,5 +42,11 @@ public class EnemyManager : MonoBehaviour
 
         //acceleration
         moveSpeed += 1f * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == playerLayer)
+            gameEventManager.collidedWithEnemy = true;
     }
 }
