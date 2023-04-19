@@ -79,6 +79,7 @@ public class TileController : MonoBehaviour
     public void DestroyFirstTile()
     {
         Destroy(spawnedTiles[0]);
+        spawnedTiles.Remove(spawnedTiles[0]);
     }
 
     private int Rnd()
