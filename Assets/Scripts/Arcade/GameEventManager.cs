@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameEventManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameEventManager : MonoBehaviour
     private Transform playerTransform;
     public bool collidedWithEnemy;
     public bool IsPlaying { get => isPlaying; }
+    private HoverMotor hoverMotorPlayer;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class GameEventManager : MonoBehaviour
         scoreMultiplier = 110;
         gameOverDisplay.SetActive(false);
         playerTransform = playerGameObject.transform;
+        hoverMotorPlayer = playerGameObject.GetComponent<HoverMotor>();
     }
 
     private void Update()
@@ -68,4 +71,15 @@ public class GameEventManager : MonoBehaviour
     {
         isPlaying = true;
     }
+    
+    public void ModifyPlayerSpeed(float multiplier)
+    {
+        hoverMotorPlayer.speedMultiplier = multiplier;
+    }
+    
+    public void OnClickLoadScene(int scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+    
 }
