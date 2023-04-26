@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,9 +11,11 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreDisplay;
     [SerializeField] private GameObject gameOverDisplay;
     [SerializeField] private GameObject playerGameObject;
+    [SerializeField] private GameObject explosionPrefab;
     
     
     private bool isPlaying;
+    private float pauseAnimation=200f;
     private float playerScore;
     private int scoreMultiplier;
     private int deathZoneHeight = -5;
@@ -52,20 +55,39 @@ public class GameEventManager : MonoBehaviour
     {
         if (playerTransform.position.y < deathZoneHeight)
         {
-            GameOverSequence(playerGameObject);
+            if (!gameOverDisplay.activeSelf)
+            {
+                StartCoroutine(GameOverSequence(playerGameObject));
+                GameOverSequence(playerGameObject);
+            }
         }
 
         if (collidedWithEnemy)
         {
-            GameOverSequence(playerGameObject);
+            if (!gameOverDisplay.activeSelf)
+            {
+                StartCoroutine(GameOverSequence(playerGameObject));
+                GameOverSequence(playerGameObject);
+            }
         }
         
     }
 
-    public void GameOverSequence(GameObject player)
+    IEnumerator GameOverSequence(GameObject player)
     {
         isPlaying = false;
+
+        if (player.transform.GetChild(2).gameObject.activeSelf)
+        {
+            Debug.Log("amogus");
+            Instantiate(explosionPrefab, player.transform.GetChild(2).gameObject.transform.position, Quaternion.identity);
+            player.transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+        yield return new WaitForSeconds(1);
+
         gameOverDisplay.SetActive(true);
+        
     }
     public void GameStartSequence()
     {

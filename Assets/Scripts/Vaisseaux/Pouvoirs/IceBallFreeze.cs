@@ -38,8 +38,8 @@ public class IceBallFreeze : MonoBehaviour
     private void Unfreez()
     {
         Debug.Log("La fonction Unfreez a été appelée");
-        fly.Force = 2000;
-        fly.MaxPlayerVelocity = 4000;
+        fly.Force = 60000;
+        fly.MaxPlayerVelocity = 90000;
         fly.Avancer();
     }
 }

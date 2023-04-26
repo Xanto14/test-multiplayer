@@ -11,9 +11,10 @@ public class ComportementCanon : MonoBehaviour
    [SerializeField] private GameObject objectToCreate;
    [SerializeField] private Transform exit;
    
+   private float ballLifeTimeSeconds = 10.0f;
    private float canonSecondsTimeout = 0.5f;
    private float timeElapsed;
-   private float forceToShoot = 1000.0f;
+   private float forceToShoot = 5000.0f;
    private Vector3 force;
    private Quaternion initialCanonRotation;
 
@@ -24,6 +25,7 @@ public class ComportementCanon : MonoBehaviour
    
    private void Start()
    {
+      rbCanon = this.GetComponent<Rigidbody>();
       initialCanonRotation = rbCanon.rotation;
    }
 
@@ -31,11 +33,14 @@ public class ComportementCanon : MonoBehaviour
    {
       if (other.gameObject.CompareTag("Player"))
       {
+         Debug.Log("Player dans la zone de tir");
+         
          target = other.transform;
          
          if (état == ÉtatCanon.auRepos)
          {
             état = ÉtatCanon.enAttaque;
+            Debug.Log("Canon en attaque");
          }
       }
    }
@@ -47,11 +52,14 @@ public class ComportementCanon : MonoBehaviour
       
       if (état == ÉtatCanon.enAttaque && timeElapsed >= canonSecondsTimeout)
       {
+         Debug.Log("Attaque");
+         
          //Rotation du canon
          rbCanon.transform.LookAt(target);
          
          //Créer un projectile
          GameObject projectile = Instantiate(objectToCreate, exit.position, transform.rotation);
+         projectile.GetComponent<ÉliminerBoulet>().StartBallLife(ballLifeTimeSeconds);
          
          //Tirer un projectile
          force = new Vector3(0, 0, 1) * forceToShoot;
@@ -66,11 +74,15 @@ public class ComportementCanon : MonoBehaviour
    {
       if (other.gameObject.CompareTag("Player"))
       {
+         Debug.Log("Player hors de la zone de tir");
+         
          if (état == ÉtatCanon.enAttaque)
          {
             //Arrête de tirer
             //Canon à sa position initale
             rbCanon.rotation = initialCanonRotation;
+            
+            Debug.Log("Canon retrouve sa position initiale");
             
             état = ÉtatCanon.auRepos;
          }
