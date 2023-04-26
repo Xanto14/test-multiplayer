@@ -15,7 +15,6 @@ public class GameEventManager : MonoBehaviour
     
     
     private bool isPlaying;
-    private float pauseAnimation=200f;
     private float playerScore;
     private int scoreMultiplier;
     private int deathZoneHeight = -5;
