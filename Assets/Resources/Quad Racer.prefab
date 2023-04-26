@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 8376787818639891922}
   - component: {fileID: 4576538385637189562}
   - component: {fileID: 6262151958655369103}
+  - component: {fileID: 1899653990283551748}
   m_Layer: 0
   m_Name: Quad Racer
   m_TagString: Untagged
@@ -496,6 +497,20 @@ MonoBehaviour:
   brake: {fileID: -8604691090270989688, guid: 57c1159a958a2324598925c50587635a, type: 3}
   turnLeft: {fileID: 1450542938547564202, guid: 57c1159a958a2324598925c50587635a, type: 3}
   turnRight: {fileID: -8496223191070268489, guid: 57c1159a958a2324598925c50587635a, type: 3}
+
+--- !u!114 &1899653990283551748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8405913642093083038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763683f67988ba648afb17cb3fefef22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+
 --- !u!1001 &5040596980056429366
 PrefabInstance:
   m_ObjectHideFlags: 0

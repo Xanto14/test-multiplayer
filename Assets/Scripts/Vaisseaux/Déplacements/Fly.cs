@@ -45,14 +45,28 @@ public class Fly : MonoBehaviour
     }
     */
     private Rigidbody rigidBody;
-    private float force = 60000;
-    private float maxPlayerVelocity = 90000;
+    
+    //private float force = 60000;
+    //private float maxPlayerVelocity = 90000;
+    private float force = 900;
+    private float maxPlayerVelocity = 1100;
+    
     private float minPlayerVelocity = 0;
     private Acces accès;
     enum ÉtatsVaisseau {arrêté, enMouvement}
     private ÉtatsVaisseau état = ÉtatsVaisseau.arrêté;
     enum PivotVaisseau {nonPivot, ouiPivot}
     private PivotVaisseau pivot = PivotVaisseau.nonPivot;
+    
+    enum DirectionPivot {gauche,droite}
+    private DirectionPivot direction;
+    
+    private float rotationSpeed = 20.0f;
+    private float step;
+    private Quaternion originalRotation;
+    private Quaternion targetRotation;
+    private Quaternion currentRotation;
+    private Vector3 newDirection;
 
     [SerializeField] private Transform enfant;
 
@@ -71,6 +85,9 @@ public class Fly : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         accès = GetComponent<Acces>();
+
+        originalRotation = enfant.transform.rotation;
+        step = rotationSpeed * Time.deltaTime;
     }
     
     private static Vector3[] directions =
@@ -93,10 +110,10 @@ public class Fly : MonoBehaviour
 
     public void ArreterBouger()
     {
-        if (état == ÉtatsVaisseau.enMouvement)
-        {
+        //if (état == ÉtatsVaisseau.enMouvement)
+        //{
             Freiner();
-        }
+        //}
     }
     
     public void Avancer()
@@ -115,23 +132,29 @@ public class Fly : MonoBehaviour
 
     public void Freiner()
     {
-        float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
-        état = ÉtatsVaisseau.arrêté;
+        //float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
+        rigidBody.velocity = new Vector3(0,0,rigidBody.velocity.z);
+        //état = ÉtatsVaisseau.arrêté;
         
-        do
+        /*do
         {
             rigidBody.AddRelativeForce(directions[0] * (-Force), ForceMode.Acceleration);
         } while (velocities[0] > minPlayerVelocity && velocities[1] > minPlayerVelocity &&
-                 velocities[1] > minPlayerVelocity);
+                 velocities[1] > minPlayerVelocity);*/
         
     }
 
     public void Pivoter(int signe)
     {
+        direction = signe == -1 ? DirectionPivot.gauche : DirectionPivot.droite;
         if ((accès.turnRight.action.WasPressedThisFrame() || accès.turnLeft.action.WasPressedThisFrame()) && pivot == PivotVaisseau.nonPivot)
         {
             pivot = PivotVaisseau.ouiPivot;
-            enfant.Rotate(0, 0, 3 * -signe, Space.Self);
+            //enfant.Rotate(0, 0, 3 * -signe, Space.Self);
+            var twist = Quaternion.Euler(0, 0, 20 * -signe);
+            targetRotation = originalRotation * twist;
+            currentRotation = enfant.transform.rotation;
+            
             rigidBody.AddRelativeForce(directions[1] * ((30 * Force / 100) * signe), ForceMode.Acceleration);
             float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
             for (int i = 0; i < velocities.Length; i++)
@@ -145,6 +168,14 @@ public class Fly : MonoBehaviour
         else if ((accès.turnRight.action.WasReleasedThisFrame() || accès.turnLeft.action.WasReleasedThisFrame()) &&
                  pivot == PivotVaisseau.ouiPivot)
         {
+            //currentRotation = enfant.transform.eulerAngles;
+            //step = rotationSpeed * Time.deltaTime;
+            //newDirection = Vector3.RotateTowards(currentRotation, targetRotation);
+            //enfant.transform.rotation = Quaternion.LookRotation(newDirection);
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x, rigidBody.velocity.y,0);
+            targetRotation = originalRotation;
+            currentRotation = enfant.transform.rotation;
+
             pivot = PivotVaisseau.nonPivot;
         }
     }
@@ -161,30 +192,13 @@ public class Fly : MonoBehaviour
                  velocities[1] > minPlayerVelocity);
     }
     
-    /*private void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W)) //touche appuyée sur le clavier
+        if ((pivot == PivotVaisseau.ouiPivot && ((direction == DirectionPivot.gauche && currentRotation.z < targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z > targetRotation.z))) || (pivot==PivotVaisseau.nonPivot && ((direction == DirectionPivot.gauche && currentRotation.z > targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z < targetRotation.z))))
         {
-            //Avancer
-            Avancer();
+            currentRotation = enfant.transform.rotation;
+            enfant.transform.rotation = Quaternion.RotateTowards(currentRotation,targetRotation,step);
         }
-
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            //Freiner
-            Freiner();
-            
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            //Pivoter à gauche
-            Pivoter(-1);
-            
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            //Pivoter à droite
-            Pivoter(1);
-        }
-    }*/
+       
+    }
 }

@@ -551,7 +551,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3422
+  m_VersionIndex: 3428
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -608,7 +608,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 30aac374122461b4b8009d49f1000396, type: 2}
+  - {fileID: 2100000, guid: 91f04af4609449b4a83ce9235078c4a0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -666,21 +666,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0.030305386, a: 1}
-    key1: {r: 1, g: 0.4129192, b: 0, a: 1}
-    key2: {r: 1, g: 0.8926479, b: 0, a: 0}
-    key3: {r: 0.18498743, g: 1, b: 0, a: 0}
-    key4: {r: 0, g: 0.9903991, b: 1, a: 0}
-    key5: {r: 0, g: 0.15447235, b: 1, a: 0}
-    key6: {r: 0.45748186, g: 0, b: 1, a: 0}
+    key0: {r: 0.3018868, g: 0.0047354796, b: 0, a: 1}
+    key1: {r: 1, g: 0.015686275, b: 0, a: 1}
+    key2: {r: 0.3301887, g: 0.005179431, b: 0, a: 0}
+    key3: {r: 1, g: 0, b: 0.6746812, a: 0}
+    key4: {r: 1, g: 0, b: 0.6746812, a: 0}
+    key5: {r: 1, g: 0, b: 0.6746812, a: 0}
+    key6: {r: 1, g: 0, b: 0.6746812, a: 0}
     key7: {r: 1, g: 0, b: 0.6746812, a: 0}
     ctime0: 0
-    ctime1: 9175
-    ctime2: 18350
-    ctime3: 27525
-    ctime4: 36700
-    ctime5: 45875
-    ctime6: 55049
+    ctime1: 32768
+    ctime2: 65535
+    ctime3: 65535
+    ctime4: 65535
+    ctime5: 65535
+    ctime6: 65535
     ctime7: 65535
     atime0: 0
     atime1: 65535
@@ -691,7 +691,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_NumColorKeys: 8
+    m_NumColorKeys: 3
     m_NumAlphaKeys: 2
   gradientDuration: 5
 --- !u!1 &906952793914427828
@@ -879,6 +879,7 @@ GameObject:
   - component: {fileID: 2265080714416020963}
   - component: {fileID: 6880793757058781794}
   - component: {fileID: 2938789121956628509}
+  - component: {fileID: 5970623343341336812}
   m_Layer: 0
   m_Name: PolyShape
   m_TagString: Untagged
@@ -924,8 +925,8 @@ MonoBehaviour:
       m_SwapUV: 0
       m_Fill: 1
       m_Scale: {x: 0.013029117, y: 0.013029117}
-      m_Offset: {x: -0.78896296, y: -0.0000015497208}
-      m_Rotation: 0
+      m_Offset: {x: -0.6921223, y: 0.42257607}
+      m_Rotation: 111.36371
       m_Anchor: 9
     m_Material: {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
     m_SubmeshIndex: 0
@@ -1203,16 +1204,16 @@ MonoBehaviour:
   - {x: 21.848957, y: 0.27686292, z: 20.992886}
   - {x: 0.4240966, y: 0.27686292, z: -0.46189776}
   m_Textures0:
-  - {x: 0.79448855, y: -0.0060165524}
-  - {x: 1.0736356, y: 0.2735203}
-  - {x: 0.807441, y: 0.5856881}
-  - {x: 0.6079118, y: 0.9255753}
-  - {x: 0.5142218, y: 1.3136016}
-  - {x: 0.49634102, y: 1.72074}
-  - {x: 0.09137571, y: 1.722927}
-  - {x: 0.11683732, y: 1.2330134}
-  - {x: 0.23212689, y: 0.76382136}
-  - {x: 0.47063223, y: 0.35974264}
+  - {x: -0.3966288, y: 0.55337644}
+  - {x: -0.23798943, y: 0.19157887}
+  - {x: 0.14969957, y: 0.3257637}
+  - {x: 0.5389179, y: 0.38776606}
+  - {x: 0.9344117, y: 0.3336655}
+  - {x: 1.3200879, y: 0.2020024}
+  - {x: 1.4696484, y: 0.5783446}
+  - {x: 1.004123, y: 0.7331016}
+  - {x: 0.5251721, y: 0.79665446}
+  - {x: 0.061974585, y: 0.7217382}
   - {x: 0.524444, y: 1.72074}
   - {x: 0.5065632, y: 1.3136016}
   - {x: 0.92940927, y: 1.722927}
@@ -1266,16 +1267,16 @@ MonoBehaviour:
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
-  - {x: 1, y: 0, z: 0.000000032226954, w: -1}
-  - {x: 1, y: 0, z: -0.000000018044728, w: -1}
-  - {x: 1, y: 0, z: 0.000000068423184, w: -1}
-  - {x: 1, y: 0, z: 0.000000010979643, w: -1}
-  - {x: 1, y: 0, z: 0.00000013142396, w: -1}
-  - {x: 1, y: 0, z: 0.0000002965583, w: -1}
-  - {x: 1, y: 0, z: 0.0000001717701, w: -1}
-  - {x: 1, y: 0, z: 0.000000023887857, w: -1}
-  - {x: 1, y: 0, z: -0.0000000738144, w: -1}
-  - {x: 1, y: 0, z: 0.000000033911835, w: -1}
+  - {x: -0.36428693, y: 0, z: 0.9312868, w: -1}
+  - {x: -0.36428684, y: 0, z: 0.9312868, w: -1}
+  - {x: -0.36428696, y: 0, z: 0.93128675, w: -1}
+  - {x: -0.364287, y: 0, z: 0.9312868, w: -1}
+  - {x: -0.3642869, y: 0, z: 0.93128675, w: -1}
+  - {x: -0.36428705, y: 0, z: 0.93128675, w: -1}
+  - {x: -0.364287, y: 0, z: 0.93128675, w: -1}
+  - {x: -0.36428696, y: 0, z: 0.93128675, w: -1}
+  - {x: -0.36428702, y: 0, z: 0.93128675, w: -1}
+  - {x: -0.364287, y: 0, z: 0.93128675, w: -1}
   - {x: -1, y: 0, z: -0.00000029655828, w: -1}
   - {x: -1, y: 0, z: -0.00000013142397, w: -1}
   - {x: -1, y: 0, z: -0.0000001717701, w: -1}
@@ -1335,7 +1336,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 615
+  m_VersionIndex: 1146
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1387,7 +1388,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d56908fee325c2f4fab136711cd6e2cb, type: 2}
+  - {fileID: 2100000, guid: 7effbab89d047024bb278ba84fcf48b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1431,3 +1432,45 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &5970623343341336812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7882456896993659120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc621e8c150a87449b7019c03fbb20c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 0.78612876, g: 0.78612876, b: 0.78612876, a: 1}
+    key2: {r: 0.23363113, g: 1, b: 0, a: 0}
+    key3: {r: 1, g: 1, b: 1, a: 0}
+    key4: {r: 1, g: 0, b: 0.6746812, a: 0}
+    key5: {r: 1, g: 0, b: 0.6746812, a: 0}
+    key6: {r: 1, g: 0, b: 0.6746812, a: 0}
+    key7: {r: 1, g: 0, b: 0.6746812, a: 0}
+    ctime0: 0
+    ctime1: 7132
+    ctime2: 33346
+    ctime3: 65535
+    ctime4: 65535
+    ctime5: 65535
+    ctime6: 65535
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 4
+    m_NumAlphaKeys: 2
+  gradientDuration: 5

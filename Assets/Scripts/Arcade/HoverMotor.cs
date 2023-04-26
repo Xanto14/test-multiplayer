@@ -3,6 +3,7 @@ using System.Collections;
 
 public class HoverMotor : MonoBehaviour
 {
+    [SerializeField] Transform ShipModelTransform;
 
     public float speed = 90f;
     public float turnSpeed = 5f;
@@ -23,6 +24,7 @@ public class HoverMotor : MonoBehaviour
     public float speedMultiplier;
     
     Quaternion rotation;
+    Quaternion rotationModel;
     private GameEventManager gameEventManager;
 
     void Awake()
@@ -34,7 +36,9 @@ public class HoverMotor : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Vertical"))
+        if(gameEventManager.IsPlaying)
+        {
+            if (Input.GetButton("Vertical"))
         {
             accelerating = true;
         }
@@ -59,10 +63,15 @@ public class HoverMotor : MonoBehaviour
         
 
         turnInput = Input.GetAxis("Horizontal");
+
+        }
+        
     }
 
     void FixedUpdate()
-    { 
+    {
+        if(gameEventManager.IsPlaying)
+        {
         Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
 
@@ -76,10 +85,10 @@ public class HoverMotor : MonoBehaviour
         {
             if (gameEventManager.IsPlaying)
             {
-                carRigidbody.AddForce(0f,-10f,0f, ForceMode.VelocityChange );
+                carRigidbody.AddForce(0f, -10f, 0f, ForceMode.VelocityChange);
             }
         }
-        
+
         float tempInput = 0f;
 
         float smoothedTurn = Mathf.Lerp(turnInput, tempInput, smoothing);
@@ -92,7 +101,7 @@ public class HoverMotor : MonoBehaviour
         }
         else if (reversing)
         {
-            
+
             carRigidbody.AddForce(transform.forward * -speed * speedMultiplier * .5f, ForceMode.Acceleration);
         }
         else
@@ -102,12 +111,21 @@ public class HoverMotor : MonoBehaviour
 
         carRigidbody.transform.Rotate(new Vector3(0f, smoothedTurn * turnSpeed, 0f));
 
+        //Debug.Log(smoothedTurn);
 
+        rotationModel = ShipModelTransform.localRotation;
+        rotationModel.x = 0f;
+        rotationModel.y = 0f;
+        rotationModel.z = smoothedTurn * -1;
+        ShipModelTransform.localRotation = rotationModel;
 
         rotation = transform.rotation;
         rotation.x = 0f;
         rotation.z = 0f;
         transform.rotation = rotation;
+
+        }
+        
 
     }
 
