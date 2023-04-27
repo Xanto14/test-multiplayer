@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 743117878}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1354231057}
@@ -12782,10 +12782,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1655c395625fe04aa0ca8f5763942c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highscoreContainer: {fileID: 0}
+  highscoreContainer: {fileID: 1545850251}
   templatePrefab: {fileID: 5408124933142468712, guid: a6e25377dcbdee445a69367eeaa84855, type: 3}
-  score: {fileID: 0}
-  playerName: {fileID: 0}
+  score: {fileID: 401402723}
+  playerName: {fileID: 190855897}
 --- !u!114 &1472446787
 MonoBehaviour:
   m_ObjectHideFlags: 0
