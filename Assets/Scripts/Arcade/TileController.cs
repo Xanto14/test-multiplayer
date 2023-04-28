@@ -22,8 +22,11 @@ public class TileController : MonoBehaviour
     private Vector3 tilePosition;
     private Vector3 obstaclePosition;
 
-    public float minDistance = 20.0f; // La distance minimale entre chaque obstacle
-    public int obstacleCount = 10; // Le nombre d'obstacles à instancier
+
+    public int maxIterations = 3;
+    private float obstacleSize;
+
+    public float minDistance = 40.0f; // La distance minimale entre chaque obstacle
     public List<GameObject> spawnedTiles;
 
     private void Start()
@@ -137,17 +140,42 @@ public class TileController : MonoBehaviour
 
     private void InstantiateWallObstacle(GameObject wallPrefab)
     {
-        List<Vector3> obstaclePositions;
-        obstaclePositions = new List<Vector3>();
-        tileWidth = spawnedTiles.Last().transform.localScale.x;
-        tileHeight = spawnedTiles.Last().transform.localScale.y;
-        tilePosition = spawnedTiles.Last().transform.position;
-        // Instancier les obstacles
-        for (int i = 0; i < obstaclePositions.Count; i++)
+        Vector3 tilePosition= spawnedTiles.Last().transform.position;
+        obstacleSize = wallPrefab.transform.localScale.x;
+        // Récupérer la taille de la tuile
+        //Vector3 tileSize = spawnedTiles.Last().gameObject.transform.localScale;
+
+        // Définir les limites de l'espace de génération
+        float minX = transform.position.x - tileSize / 2f + obstacleSize / 2f;
+        float maxX = transform.position.x + tileSize / 2f - obstacleSize / 2f;
+        float minZ = transform.position.z - tileSize / 2f + obstacleSize / 2f;
+        float maxZ = transform.position.z + tileSize / 2f - obstacleSize / 2f;
+
+        // Instancier des obstacles aléatoires
+        for (int i = 0; i < maxIterations; i++)
         {
-            Vector3 obstaclePosition = GetRandomObstaclePosition();
-            obstaclePositions.Add(obstaclePosition);
-            Instantiate(wallPrefab, obstaclePosition, Quaternion.identity);
+            Vector3 obstaclePosition = new Vector3(
+                tilePosition.x + Random.Range(minX, maxX),
+                wallPrefab.transform.localScale.y / 2f, tilePosition.z +
+                Random.Range(minZ, maxZ)
+            );
+
+            // Vérifier la distance minimale entre les obstacles
+            bool isFree = true;
+            foreach (Transform child in transform)
+            {
+                if (Vector3.Distance(child.position, obstaclePosition) < minDistance + obstacleSize)
+                {
+                    isFree = false;
+                    break;
+                }
+            }
+
+            // Si l'emplacement est disponible, instancier l'obstacle
+            if (isFree)
+            {
+                Instantiate(wallPrefab, obstaclePosition, Quaternion.identity, transform);
+            }
         }
     }
 
@@ -160,48 +188,12 @@ public class TileController : MonoBehaviour
     }
 
 
-    private List<Vector3> obstaclePositions;
+    
+   
 
-    Vector3 GetRandomObstaclePosition()
-    {
-        bool isPositionValid = false;
-
-        // Essayer de trouver une position valide pour l'obstacle
-        while (!isPositionValid)
-        {
-            float obstacleX = Random.Range(tilePosition.x - tileWidth / 2.0f, tilePosition.x + tileWidth / 2.0f);
-            float obstacleY = Random.Range(tilePosition.y - tileHeight / 2.0f, tilePosition.y + tileHeight / 2.0f);
-            obstaclePosition = new Vector3(obstacleX, obstacleY, tilePosition.z);
-
-            // Vérifier si la position est à une distance minimale de tous les autres obstacles
-            bool isDistanceValid = true;
-            foreach (Vector3 existingPosition in obstaclePositions)
-            {
-                if (Vector3.Distance(obstaclePosition, existingPosition) < minDistance)
-                {
-                    isDistanceValid = false;
-                    break;
-                }
-            }
-
-            // Vérifier si la position est à l'intérieur de la tuile
-            bool isInsideTile = false;
+    
+    
 
 
-            isInsideTile =
-                (obstacleX >= tilePosition.x - tileWidth / 2.0f && obstacleX <= tilePosition.x + tileWidth / 2.0f
-                                                                && obstacleY >=
-                                                                tilePosition.y - tileHeight / 2.0f &&
-                                                                obstacleY <= tilePosition.y + tileHeight / 2.0f);
-
-
-            // Si la position est valide, sortir de la boucle while
-            if (isDistanceValid && isInsideTile)
-            {
-                isPositionValid = true;
-            }
-        }
-
-        return obstaclePosition;
-    }
+    
 }
