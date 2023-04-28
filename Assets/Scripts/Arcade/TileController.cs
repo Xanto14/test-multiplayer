@@ -22,11 +22,11 @@ public class TileController : MonoBehaviour
     private Vector3 tilePosition;
     private Vector3 obstaclePosition;
 
-
+    private List<Vector3> cubePositions;
     public int maxIterations = 3;
     private float obstacleSize;
-
-    public float minDistance = 40.0f; // La distance minimale entre chaque obstacle
+    public int maxAttemptsPerIteration = 3;
+    public float minDistance = 60.0f; // La distance minimale entre chaque obstacle
     public List<GameObject> spawnedTiles;
 
     private void Start()
@@ -140,7 +140,8 @@ public class TileController : MonoBehaviour
 
     private void InstantiateWallObstacle(GameObject wallPrefab)
     {
-        Vector3 tilePosition= spawnedTiles.Last().transform.position;
+        cubePositions = new List<Vector3>();
+    Vector3 tilePosition= spawnedTiles.Last().transform.position;
         obstacleSize = wallPrefab.transform.localScale.x;
         // Récupérer la taille de la tuile
         //Vector3 tileSize = spawnedTiles.Last().gameObject.transform.localScale;
@@ -151,30 +152,33 @@ public class TileController : MonoBehaviour
         float minZ = transform.position.z - tileSize / 2f + obstacleSize / 2f;
         float maxZ = transform.position.z + tileSize / 2f - obstacleSize / 2f;
 
+
         // Instancier des obstacles aléatoires
         for (int i = 0; i < maxIterations; i++)
         {
-            Vector3 obstaclePosition = new Vector3(
-                tilePosition.x + Random.Range(minX, maxX),
-                wallPrefab.transform.localScale.y / 2f, tilePosition.z +
-                Random.Range(minZ, maxZ)
-            );
-
-            // Vérifier la distance minimale entre les obstacles
-            bool isFree = true;
-            foreach (Transform child in transform)
+            bool cubeGenerated = false;
+            for (int j = 0; j < maxAttemptsPerIteration; j++)
             {
-                if (Vector3.Distance(child.position, obstaclePosition) < minDistance + obstacleSize)
+                Vector3 obstaclePosition = new Vector3(
+                                tilePosition.x + Random.Range(minX, maxX),
+                                wallPrefab.transform.localScale.y / 2f, tilePosition.z +
+                                Random.Range(minZ, maxZ)
+                            );
+
+                if (!CheckOverlap(obstaclePosition, cubePositions))
                 {
-                    isFree = false;
+                    Instantiate(wallPrefab, obstaclePosition, Quaternion.identity);
+                    cubePositions.Add(obstaclePosition);
+                    cubeGenerated = true;
                     break;
                 }
-            }
 
-            // Si l'emplacement est disponible, instancier l'obstacle
-            if (isFree)
+
+            }
+            if (!cubeGenerated)
             {
-                Instantiate(wallPrefab, obstaclePosition, Quaternion.identity, transform);
+                Debug.Log("Max attempts reached, stopping generation.");
+                break;
             }
         }
     }
@@ -187,13 +191,23 @@ public class TileController : MonoBehaviour
         Instantiate(canonPrefab, position, spawnedTiles.Last().transform.rotation);
     }
 
+    bool CheckOverlap(Vector3 position, List<Vector3> listeWalls)
+    {
+        foreach (Vector3 cubePos in listeWalls)
+        {
+            if (Vector3.Distance(position, cubePos) < minDistance)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    
-   
-
-    
-    
 
 
-    
+
+
+
+
+
 }
