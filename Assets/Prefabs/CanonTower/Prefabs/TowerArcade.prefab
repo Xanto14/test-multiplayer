@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 449956}
   - component: {fileID: 3327622}
   - component: {fileID: 2351876}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tower_Top_Deco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 471166}
   m_Layer: 0
-  m_Name: Tower
+  m_Name: TowerArcade
   m_TagString: Canon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 463400}
   - component: {fileID: 3310352}
   - component: {fileID: 2327352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tower_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 2432244254102198166}
   - component: {fileID: 6762147866701928892}
   - component: {fileID: 3533421677294789337}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tower_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,8 +588,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 234.24232, y: 49.0941, z: 185.50893}
-  m_Center: {x: -1.5279924, y: 3.2398567, z: 119.45663}
+  m_Size: {x: 185, y: 44.362602, z: 185.185}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3533421677294789337
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -615,7 +615,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5792787038714722906}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InvisibleExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

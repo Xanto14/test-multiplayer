@@ -29,23 +29,22 @@ public class TriggerManager : MonoBehaviour
             }
             Instantiate(tileTrigger, tileController.spawnedTiles.Last().transform.position,tileController.spawnedTiles.Last().transform.rotation);
         }
-        
-        if(other.gameObject.layer == 7)
-        {
-            gameEventManager.ModifyPlayerSpeed(1.5f);
-        }
     }
     
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.layer == 7)
+        if (other.gameObject.layer == 7)
         {
             gameEventManager.ModifyPlayerSpeed(1f);
+        }
+        else if (other.gameObject.layer == 10 )
+        {
         }
         else
         {
             gameEventManager.ModifyPlayerSpeed(0.5f);
         }
+        
     }
 }

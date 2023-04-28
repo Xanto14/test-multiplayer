@@ -4,22 +4,31 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class TileController : MonoBehaviour
 {
-    private int startNumber = 5;
-    private int turns;
+    private int _startNumber = 5;
+    private int _turns;
 
     [SerializeField] private int tileSize = 30;
-
     [SerializeField] private List<GameObject> tileList;
+    [SerializeField] private List<GameObject> obstacleList;
     [SerializeField] private GameObject tileGenerator;
+
+    private float tileWidth;
+    private float tileHeight;
+    private Vector3 tilePosition;
+    private Vector3 obstaclePosition;
+
+    public float minDistance = 20.0f; // La distance minimale entre chaque obstacle
+    public int obstacleCount = 10; // Le nombre d'obstacles à instancier
     public List<GameObject> spawnedTiles;
 
     private void Start()
     {
-        for (int i = 0; i < startNumber; i++)
+        for (int i = 0; i < _startNumber; i++)
         {
             SpawnTile(2);
         }
@@ -34,6 +43,7 @@ public class TileController : MonoBehaviour
 
         ApplyRotationAndMovementToGenerator(tileGenerated);
         ApplyMovementCorrection(tileGenerated);
+        GenerateObstacles();
     }
 
     public void SpawnTile(int t)
@@ -43,6 +53,7 @@ public class TileController : MonoBehaviour
 
         ApplyRotationAndMovementToGenerator(t);
         ApplyMovementCorrection(t);
+        GenerateObstacles();
     }
 
     private int GetRotation(int i)
@@ -88,25 +99,109 @@ public class TileController : MonoBehaviour
         switch (r)
         {
             case 0:
-                turns++;
-                if (turns > 2)
+                _turns++;
+                if (_turns > 2)
                 {
                     r = 1;
-                    turns = 0;
+                    _turns = 0;
                 }
 
                 break;
             case 1:
-                turns--;
-                if (turns < -2)
+                _turns--;
+                if (_turns < -2)
                 {
                     r = 0;
-                    turns = 0;
+                    _turns = 0;
                 }
 
                 break;
         }
-
         return r;
+    }
+
+    private void GenerateObstacles()
+    {
+        GameObject obstacle = ChooseRndObstacle();
+        if (obstacle.gameObject.CompareTag("Wall"))
+            InstantiateWallObstacle(obstacle);
+        else if (obstacle.gameObject.CompareTag("Canon"))
+            InstantiateCanonObstacle(obstacle);
+    }
+
+    private GameObject ChooseRndObstacle()
+    {
+        var r = Random.Range(0, obstacleList.Count);
+        return obstacleList[r];
+    }
+
+    private void InstantiateWallObstacle(GameObject wallPrefab)
+    {
+        List<Vector3> obstaclePositions;
+        obstaclePositions = new List<Vector3>();
+        tileWidth = spawnedTiles.Last().transform.localScale.x;
+        tileHeight = spawnedTiles.Last().transform.localScale.y;
+        tilePosition = spawnedTiles.Last().transform.position;
+        // Instancier les obstacles
+        for (int i = 0; i < obstaclePositions.Count; i++)
+        {
+            Vector3 obstaclePosition = GetRandomObstaclePosition();
+            obstaclePositions.Add(obstaclePosition);
+            Instantiate(wallPrefab, obstaclePosition, Quaternion.identity);
+        }
+    }
+
+    private void InstantiateCanonObstacle(GameObject canonPrefab)
+    {
+        var r = Random.insideUnitCircle * 35f;
+        Vector3 position = new Vector3(spawnedTiles.Last().transform.position.x + r.x,
+            spawnedTiles.Last().transform.position.y, spawnedTiles.Last().transform.position.z + r.y);
+        Instantiate(canonPrefab, position, spawnedTiles.Last().transform.rotation);
+    }
+
+
+    private List<Vector3> obstaclePositions;
+
+    Vector3 GetRandomObstaclePosition()
+    {
+        bool isPositionValid = false;
+
+        // Essayer de trouver une position valide pour l'obstacle
+        while (!isPositionValid)
+        {
+            float obstacleX = Random.Range(tilePosition.x - tileWidth / 2.0f, tilePosition.x + tileWidth / 2.0f);
+            float obstacleY = Random.Range(tilePosition.y - tileHeight / 2.0f, tilePosition.y + tileHeight / 2.0f);
+            obstaclePosition = new Vector3(obstacleX, obstacleY, tilePosition.z);
+
+            // Vérifier si la position est à une distance minimale de tous les autres obstacles
+            bool isDistanceValid = true;
+            foreach (Vector3 existingPosition in obstaclePositions)
+            {
+                if (Vector3.Distance(obstaclePosition, existingPosition) < minDistance)
+                {
+                    isDistanceValid = false;
+                    break;
+                }
+            }
+
+            // Vérifier si la position est à l'intérieur de la tuile
+            bool isInsideTile = false;
+
+
+            isInsideTile =
+                (obstacleX >= tilePosition.x - tileWidth / 2.0f && obstacleX <= tilePosition.x + tileWidth / 2.0f
+                                                                && obstacleY >=
+                                                                tilePosition.y - tileHeight / 2.0f &&
+                                                                obstacleY <= tilePosition.y + tileHeight / 2.0f);
+
+
+            // Si la position est valide, sortir de la boucle while
+            if (isDistanceValid && isInsideTile)
+            {
+                isPositionValid = true;
+            }
+        }
+
+        return obstaclePosition;
     }
 }
