@@ -271,11 +271,11 @@ public class TileController : MonoBehaviour
         GameObject boostInstantiated = Instantiate(boostPrefab, nouvellePosition, Quaternion.identity, spawnedTiles.Last().transform);
         //Debug.Log("Position normal avant : " + boostInstantiated.transform.position);
         //Debug.Log("Position local avant : " + boostInstantiated.transform.localPosition);
-        Vector3 halfSizeOffset = new Vector3(0, boostInstantiated.transform.GetChild(1).transform.localScale.y, 0);
-        //boostInstantiated.transform.Translate(halfSizeOffset,Space.Self);
+        Vector3 halfSizeOffset = new Vector3(0, boostInstantiated.transform.GetChild(1).transform.localScale.y/2f, 0);
+        boostInstantiated.transform.Translate(halfSizeOffset, Space.Self);
         //Debug.Log("Position normal apres : " + boostInstantiated.transform.position);
         //Debug.Log("Position local apres : " + boostInstantiated.transform.localPosition);
-        //boostInstantiated.transform.position += halfSizeOffset;
+        boostInstantiated.transform.position += halfSizeOffset;
         RescalePrefabInParent(spawnedTiles.Last().transform, boostInstantiated);
     }
 

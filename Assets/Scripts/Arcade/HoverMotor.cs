@@ -38,7 +38,6 @@ public class HoverMotor : MonoBehaviour
         carRigidbody = GetComponent<Rigidbody>();
         speedMultiplier = 1f;
         scoreMultiplier = 1;
-        positionDebase = gameObject.transform.localPosition;
     }
 
     void Update()
