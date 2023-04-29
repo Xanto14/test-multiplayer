@@ -22,7 +22,12 @@ public class HoverMotor : MonoBehaviour
 
     [SerializeField] private GameObject gameManager;
     public float speedMultiplier;
-    
+
+    public float powerupDuration = 5.0f;
+    public int scoreMultiplier;
+    private bool powerupMultiplierActive = false;
+    private float powerupMultiplierStartTime = 0.0f;
+
     Quaternion rotation;
     Quaternion rotationModel;
     private GameEventManager gameEventManager;
@@ -32,6 +37,7 @@ public class HoverMotor : MonoBehaviour
         gameEventManager = gameManager.GetComponent<GameEventManager>();
         carRigidbody = GetComponent<Rigidbody>();
         speedMultiplier = 1f;
+        scoreMultiplier = 1;
     }
 
     void Update()

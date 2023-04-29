@@ -16,7 +16,7 @@ public class GameEventManager : MonoBehaviour
     
     private bool isPlaying;
     private float playerScore;
-    private int scoreMultiplier;
+    private int scoreMultiplierOvertime;
     private int deathZoneHeight = -5;
     private Transform playerTransform;
     public bool collidedWithEnemy;
@@ -27,7 +27,7 @@ public class GameEventManager : MonoBehaviour
     {
         isPlaying = false;
         collidedWithEnemy = false;
-        scoreMultiplier = 110;
+        scoreMultiplierOvertime = 110;
         gameOverDisplay.SetActive(false);
         playerTransform = playerGameObject.transform;
         hoverMotorPlayer = playerGameObject.GetComponent<HoverMotor>();
@@ -43,7 +43,7 @@ public class GameEventManager : MonoBehaviour
     {
         if (isPlaying)
         {
-            playerScore += Time.deltaTime * scoreMultiplier;
+            playerScore += Time.deltaTime * scoreMultiplierOvertime * playerGameObject.GetComponent<HoverMotor>().scoreMultiplier;
 
 
             scoreDisplay.text = $"{playerScore:f0}";
