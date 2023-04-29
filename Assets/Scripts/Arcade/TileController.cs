@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 public class TileController : MonoBehaviour
 {
-    private int _startNumber = 5;
+    private int _startNumber = 2;
     private int _turns;
 
     [SerializeField] private int tileSize = 30;
@@ -65,8 +65,6 @@ public class TileController : MonoBehaviour
 
         ApplyRotationAndMovementToGenerator(t);
         ApplyMovementCorrection(t);
-        GenerateObstacles();
-        GenerateBoost();
     }
 
     private int GetRotation(int i)
@@ -208,7 +206,7 @@ public class TileController : MonoBehaviour
         }
     }
 
-    private void RescalePrefabInParent(Transform parentTransform, GameObject prefab)
+    public void RescalePrefabInParent(Transform parentTransform, GameObject prefab)
     {
         Vector3 inverseScale = new Vector3(1f / parentTransform.localScale.x, 1f, 1f / parentTransform.localScale.z);
         prefab.transform.localScale= Vector3.Scale(prefab.transform.localScale, inverseScale);
@@ -271,12 +269,12 @@ public class TileController : MonoBehaviour
         }
 
         GameObject boostInstantiated = Instantiate(boostPrefab, nouvellePosition, Quaternion.identity, spawnedTiles.Last().transform);
-        Debug.Log("Position normal avant : " + boostInstantiated.transform.position);
-        Debug.Log("Position local avant : " + boostInstantiated.transform.localPosition);
+        //Debug.Log("Position normal avant : " + boostInstantiated.transform.position);
+        //Debug.Log("Position local avant : " + boostInstantiated.transform.localPosition);
         Vector3 halfSizeOffset = new Vector3(0, boostInstantiated.transform.GetChild(1).transform.localScale.y, 0);
-        boostInstantiated.transform.Translate(halfSizeOffset,Space.Self);
-        Debug.Log("Position normal apres : " + boostInstantiated.transform.position);
-        Debug.Log("Position local apres : " + boostInstantiated.transform.localPosition);
+        //boostInstantiated.transform.Translate(halfSizeOffset,Space.Self);
+        //Debug.Log("Position normal apres : " + boostInstantiated.transform.position);
+        //Debug.Log("Position local apres : " + boostInstantiated.transform.localPosition);
         //boostInstantiated.transform.position += halfSizeOffset;
         RescalePrefabInParent(spawnedTiles.Last().transform, boostInstantiated);
     }

@@ -5,11 +5,11 @@ public class HoverMotor : MonoBehaviour
 {
     [SerializeField] Transform ShipModelTransform;
 
-    public float speed = 90f;
-    public float turnSpeed = 5f;
-    public float smoothing = .5f;
-    public float hoverForce = 65f;
-    public float hoverHeight = 3.5f;
+    public float speed;
+    public float turnSpeed;
+    public float smoothing;
+    public float hoverForce;
+    public float hoverHeight;
     public ParticleSystem burnerParticles;
     public Light headlight;
     private float powerInput;
@@ -21,7 +21,7 @@ public class HoverMotor : MonoBehaviour
     private bool lightsOn = false;
 
     [SerializeField] private GameObject gameManager;
-    public float speedMultiplier;
+    private float speedMultiplier;
 
     public float powerupDuration = 5.0f;
     public int scoreMultiplier;
@@ -30,7 +30,7 @@ public class HoverMotor : MonoBehaviour
 
     Quaternion rotation;
     Quaternion rotationModel;
-    private GameEventManager gameEventManager;
+    public GameEventManager gameEventManager;
 
     void Awake()
     {
@@ -38,6 +38,7 @@ public class HoverMotor : MonoBehaviour
         carRigidbody = GetComponent<Rigidbody>();
         speedMultiplier = 1f;
         scoreMultiplier = 1;
+        positionDebase = gameObject.transform.localPosition;
     }
 
     void Update()
@@ -81,19 +82,17 @@ public class HoverMotor : MonoBehaviour
         Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, hoverHeight))
-        {
-            float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
-            Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
-            carRigidbody.AddForce(appliedHoverForce, ForceMode.Acceleration);
-        }
-        else
-        {
-            if (gameEventManager.IsPlaying)
+            if (Physics.Raycast(ray, out hit, hoverHeight))
             {
-                carRigidbody.AddForce(0f, -10f, 0f, ForceMode.VelocityChange);
+                float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
+                Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
+                carRigidbody.AddForce(appliedHoverForce, ForceMode.Acceleration);
             }
-        }
+            else
+            {
+                if (gameEventManager.IsPlaying)
+                    carRigidbody.AddForce(0f, -10f, 0f, ForceMode.VelocityChange);
+            }
 
         float tempInput = 0f;
 
@@ -133,6 +132,11 @@ public class HoverMotor : MonoBehaviour
         }
         
 
+    }
+
+    public void ModifyPlayerSpeed(float multiplier)
+    {
+        speedMultiplier = multiplier;
     }
 
 }

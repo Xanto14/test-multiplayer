@@ -10,7 +10,7 @@ public class GameEventManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreDisplay;
     [SerializeField] private GameObject gameOverDisplay;
-    [SerializeField] private GameObject playerGameObject;
+    [SerializeField] public GameObject playerGameObject;
     [SerializeField] private GameObject explosionPrefab;
     
     
@@ -91,11 +91,6 @@ public class GameEventManager : MonoBehaviour
     public void GameStartSequence()
     {
         isPlaying = true;
-    }
-    
-    public void ModifyPlayerSpeed(float multiplier)
-    {
-        hoverMotorPlayer.speedMultiplier = multiplier;
     }
     
     public void OnClickLoadScene(int scene)

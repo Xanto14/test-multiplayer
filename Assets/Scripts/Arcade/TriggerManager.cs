@@ -21,30 +21,15 @@ public class TriggerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 6)
+        Transform parentTransform = tileController.spawnedTiles.Last().transform;
+        if (other.gameObject.layer == 6)
         {
             for (int i = 0; i < tileAmountToSpawn; i++)
             {
                 tileController.SpawnTile();
             }
-            Instantiate(tileTrigger, tileController.spawnedTiles.Last().transform.position,tileController.spawnedTiles.Last().transform.rotation);
+            GameObject instantiatedTile = Instantiate(tileTrigger, parentTransform.position, parentTransform.rotation, parentTransform);
+            tileController.RescalePrefabInParent(parentTransform, instantiatedTile);
         }
-    }
-    
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.layer == 7)
-        {
-            gameEventManager.ModifyPlayerSpeed(1f);
-        }
-        else if (other.gameObject.layer == 10 )
-        {
-        }
-        else
-        {
-            gameEventManager.ModifyPlayerSpeed(0.5f);
-        }
-        
     }
 }
