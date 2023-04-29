@@ -24,7 +24,7 @@ public class QuickInstantiate : MonoBehaviour
         int ship = (int)PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
 
         GameObject vaisseau =MasterManager.NetworkInstantiate(prefabs[ship], position, Quaternion.identity);
-        vaisseau.GetComponent<RotationVaisseau>().enabled = false;
+        vaisseau.GetComponent<RotationObject>().enabled = false;
         vaisseau.GetComponent<ChangeShipIcon>().enabled = false;
         vaisseau.GetComponent<ShipMenuAnimation>().enabled = false;
     }

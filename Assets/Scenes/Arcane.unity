@@ -882,7 +882,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 590bd55f6621a47449c5e0ead74b114f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 75cc4c58147701a48870617e61ab6c20, type: 2}
   m_sharedMaterial: {fileID: -5052144562963559105, guid: 590bd55f6621a47449c5e0ead74b114f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -891,14 +891,14 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
-  m_enableVertexGradient: 0
+  m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: e9a3b5209a628ab4faae43029f09d06c, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: f9e9c4faf800e0e469c99ecee48e67ef, type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -913,7 +913,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -946,7 +946,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &146337497
@@ -6315,9 +6315,14 @@ MonoBehaviour:
   obstacleList:
   - {fileID: 165880, guid: cca095f0bb490304fa3a927fad69f456, type: 3}
   - {fileID: 4802624670192882784, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
+  boostList:
+  - {fileID: 5722646962447658077, guid: a3b4a3d0fc2241e4e8fc4ad0e91a027a, type: 3}
+  - {fileID: 6759926766302147629, guid: e4b83da8706c4a44da7e9331fafa9f4a, type: 3}
   tileGenerator: {fileID: 1220295444}
-  minDistance: 20
-  obstacleCount: 10
+  maxIterations: 3
+  maxAttemptsPerIteration: 10
+  minDistanceObstacle: 0
+  minDistanceBoost: 0
   spawnedTiles: []
 --- !u!4 &239915043
 Transform:
@@ -14861,60 +14866,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec65f710ead54784799d47064b35fcba, type: 3}
---- !u!1001 &3333625572120877273
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4802624670192882784, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_Name
-      value: WallObstacle
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 12.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -10.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 265.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478543135419782069, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a8b78ef2ff9429e4084134dccdbea7f7, type: 3}
