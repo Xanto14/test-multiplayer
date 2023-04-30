@@ -188,6 +188,9 @@ public class HoverMotor : MonoBehaviour
             gameEventManager.SpeedOverlay.gameObject.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject.transform.parent.gameObject);
         }
+        if (other.CompareTag("Wall"))
+            other.gameObject.transform.parent.gameObject.GetComponent<AudioSource>().Play();
+
     }
 
     public void ModifyPlayerSpeed(float multiplier)
