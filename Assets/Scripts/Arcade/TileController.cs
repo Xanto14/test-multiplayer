@@ -9,6 +9,10 @@ using Random = UnityEngine.Random;
 
 public class TileController : MonoBehaviour
 {
+    const int MAX_ATTEMPTS_PER_ITERATION = 10;
+    const int PERCENTAGE_BOOST_SPAWN = 40;
+    const float MIN_DISTANCE_OBSTACLE = 60.0f;
+    const float MIN_DISTANCE_BOOST = 30.0f;
     private int _startNumber = 2;
     private int _turns;
 
@@ -20,23 +24,15 @@ public class TileController : MonoBehaviour
 
     
     private Vector3 obstaclePosition;
-    private int percentageBoostSpawn;
     private List<Vector3> cubePositions;
     public int maxIterations;
     private float obstacleSize;
-    public int maxAttemptsPerIteration;
-    public float minDistanceObstacle;
-    public float minDistanceBoost;// La distance minimale entre chaque obstacle
     public List<GameObject> spawnedTiles;
 
     private void Start()
     {
         obstaclePosition = new Vector3();
         maxIterations = 5;
-        maxAttemptsPerIteration = 10;
-        minDistanceObstacle = 60.0f;
-        minDistanceBoost = 30.0f;
-        percentageBoostSpawn = 40;
 
         for (int i = 0; i < _startNumber; i++)
         {
@@ -191,11 +187,11 @@ public class TileController : MonoBehaviour
         {
             Debug.Log("Maxiterations: "+ i +"/"+maxIterations);
             bool cubeGenerated = false;
-            for (int j = 0; j < maxAttemptsPerIteration; j++)
+            for (int j = 0; j < MAX_ATTEMPTS_PER_ITERATION; j++)
             {
                 obstaclePosition = GetRandomPositionWithinTileRange(spawnedTiles.Last());
-                Debug.Log("Attemps: " + j + "/" + maxAttemptsPerIteration);
-                if (!CheckOverlap(obstaclePosition, cubePositions,minDistanceObstacle))
+                Debug.Log("Attemps: " + j + "/" + MAX_ATTEMPTS_PER_ITERATION);
+                if (!CheckOverlap(obstaclePosition, cubePositions, MIN_DISTANCE_OBSTACLE))
                 {
                     GameObject obstacle = Instantiate(wallPrefab, obstaclePosition, Quaternion.identity,parentTransform);
                     Vector3 inverseScale = new Vector3(1f / parentTransform.localScale.x, 1f, 1f / parentTransform.localScale.z);
@@ -229,7 +225,7 @@ public class TileController : MonoBehaviour
             }
         }
     }
-    private bool SpawnBoost() => Random.Range(0, 100 + 1) < percentageBoostSpawn;
+    private bool SpawnBoost() => Random.Range(0, 100 + 1) < PERCENTAGE_BOOST_SPAWN;
 
     public void RescalePrefabInParent(Transform parentTransform, GameObject prefab)
     {
@@ -292,7 +288,7 @@ public class TileController : MonoBehaviour
         GameObject boostInstantiated = Instantiate(boostPrefab,spawnedTiles.Last().transform);
         Vector3 nouvellePosition = boostInstantiated.transform.position+ GetRandomPositionWithinRadius(0.35f);
 
-        while (CheckOverlap(nouvellePosition, GetListChildVector3InParent(spawnedTiles.Last()),minDistanceBoost))
+        while (CheckOverlap(nouvellePosition, GetListChildVector3InParent(spawnedTiles.Last()), MIN_DISTANCE_BOOST))
             nouvellePosition = GetRandomPositionWithinRadius(0.35f);
 
         boostInstantiated.transform.localPosition = nouvellePosition;

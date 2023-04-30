@@ -3,18 +3,22 @@ using System.Collections;
 
 public class HoverMotor : MonoBehaviour
 {
+    const float MULTIPLIER_TURN_SPEED = 1.75f;
+    const float POWER_UP_DURATION = 5.0f;
     [SerializeField] Transform ShipModelTransform;
 
     public float speed;
+    public float topSpeed;
     public float turnSpeed;
     public float smoothing;
     public float hoverForce;
     public float hoverHeight;
-    public ParticleSystem burnerParticles;
+    public ParticleSystem leftBurnerParticles;
+    public ParticleSystem rightBurnerParticles;
     public Light headlight;
     private float powerInput;
     private float turnInput;
-    private Rigidbody carRigidbody;
+    private Rigidbody shipRigidbody;
 
     private bool accelerating = false;
     private bool reversing = false;
@@ -27,10 +31,14 @@ public class HoverMotor : MonoBehaviour
     public int scoreMultiplier;
     private bool powerupMultiplierActive;
     private float powerupMultiplierStartTime;
-    private float powerupDuration;
 
     private bool powerupSpeedBoostActive;
     private float powerupSpeedBoostStartTime;
+    private float baseTurnSpeed;
+
+    private Color boostFlameColor;
+    private Color baseFlameColor;
+
 
     Quaternion rotation;
     Quaternion rotationModel;
@@ -38,8 +46,12 @@ public class HoverMotor : MonoBehaviour
 
     void Awake()
     {
+        boostFlameColor = Color.blue;
+        var main = leftBurnerParticles.main;
+        baseFlameColor = main.startColor.color;
+        baseTurnSpeed = turnSpeed;
         gameEventManager = gameManager.GetComponent<GameEventManager>();
-        carRigidbody = GetComponent<Rigidbody>();
+        shipRigidbody = GetComponent<Rigidbody>();
         speedMultiplier = 1f;
         speedBoostMultiplier = 1f;
         scoreMultiplier = 1;
@@ -47,16 +59,14 @@ public class HoverMotor : MonoBehaviour
         powerupSpeedBoostActive = false;
         powerupMultiplierStartTime = 0.0f;
         powerupSpeedBoostStartTime = 0.0f;
-        powerupDuration = 5.0f;
 }
 
     void Update()
     {
         if (powerupMultiplierActive)
         {
-            if (Time.time >= powerupMultiplierStartTime + powerupDuration)
+            if (Time.time >= powerupMultiplierStartTime + POWER_UP_DURATION)
             {
-                // Deactivate the powerup effect and reset the score multiplier
                 powerupMultiplierActive = false;
                 scoreMultiplier /= 2;
                 gameEventManager.MultiplierIcon.gameObject.SetActive(false);
@@ -65,11 +75,18 @@ public class HoverMotor : MonoBehaviour
 
         if (powerupSpeedBoostActive)
         {
-            if (Time.time >= powerupSpeedBoostStartTime + powerupDuration)
+            if (Time.time >= powerupSpeedBoostStartTime + POWER_UP_DURATION)
             {
-                // Deactivate the powerup effect and reset the score multiplier
                 powerupSpeedBoostActive = false;
                 speedBoostMultiplier /= 2;
+                if (turnSpeed >= baseTurnSpeed * MULTIPLIER_TURN_SPEED)
+                {
+                    var leftMain = leftBurnerParticles.main;
+                    leftMain.startColor = baseFlameColor;
+                    var rightMain = rightBurnerParticles.main;
+                    rightMain.startColor = baseFlameColor;
+                    turnSpeed = baseTurnSpeed;
+                }
                 gameEventManager.SpeedOverlay.gameObject.SetActive(false);
             }
         }
@@ -77,9 +94,9 @@ public class HoverMotor : MonoBehaviour
         if (gameEventManager.IsPlaying)
         {
             if (Input.GetButton("Vertical"))
-        {
-            accelerating = true;
-        }
+            {
+                accelerating = true;
+            }
         else
         {
             accelerating = false;
@@ -108,7 +125,10 @@ public class HoverMotor : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(gameEventManager.IsPlaying)
+        if (!powerupSpeedBoostActive&& topSpeed < shipRigidbody.velocity.magnitude)
+            topSpeed = shipRigidbody.velocity.magnitude;
+
+        if (gameEventManager.IsPlaying)
         {
         Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
@@ -117,12 +137,12 @@ public class HoverMotor : MonoBehaviour
             {
                 float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
                 Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
-                carRigidbody.AddForce(appliedHoverForce, ForceMode.Acceleration);
+                shipRigidbody.AddForce(appliedHoverForce, ForceMode.Acceleration);
             }
             else
             {
                 if (gameEventManager.IsPlaying)
-                    carRigidbody.AddForce(0f, -10f, 0f, ForceMode.VelocityChange);
+                    shipRigidbody.AddForce(0f, -10f, 0f, ForceMode.VelocityChange);
             }
 
         float tempInput = 0f;
@@ -131,21 +151,24 @@ public class HoverMotor : MonoBehaviour
 
         if (accelerating)
         {
-            burnerParticles.Play();
-            carRigidbody.AddForce(transform.forward * speed * (speedMultiplier* speedBoostMultiplier), ForceMode.Acceleration);
+            leftBurnerParticles.gameObject.SetActive(true);
+            rightBurnerParticles.gameObject.SetActive(true);
+
+                shipRigidbody.AddForce(transform.forward * speed * (speedMultiplier* speedBoostMultiplier), ForceMode.Acceleration);
             reversing = false;
         }
         else if (reversing)
         {
 
-            carRigidbody.AddForce(transform.forward * -speed * (speedMultiplier* speedBoostMultiplier) * .5f, ForceMode.Acceleration);
+                shipRigidbody.AddForce(transform.forward * -speed * (speedMultiplier* speedBoostMultiplier) * .5f, ForceMode.Acceleration);
         }
         else
         {
-            burnerParticles.Stop();
+                leftBurnerParticles.gameObject.SetActive(false);
+                rightBurnerParticles.gameObject.SetActive(false);
         }
 
-        carRigidbody.transform.Rotate(new Vector3(0f, smoothedTurn * turnSpeed, 0f));
+            shipRigidbody.transform.Rotate(new Vector3(0f, smoothedTurn * turnSpeed, 0f));
 
         //Debug.Log(smoothedTurn);
 
@@ -180,8 +203,15 @@ public class HoverMotor : MonoBehaviour
         if (other.CompareTag("SpeedBoost"))
         {
             // Double the score multiplier and activate the powerup effect
+            var leftMain = leftBurnerParticles.main;
+            leftMain.startColor = boostFlameColor;
+            var rightMain = rightBurnerParticles.main;
+            rightMain.startColor = boostFlameColor;
+
             Debug.Log("collision speedboost done");
             speedBoostMultiplier = 2;
+            if (turnSpeed < baseTurnSpeed * MULTIPLIER_TURN_SPEED)
+                turnSpeed *= MULTIPLIER_TURN_SPEED;
             powerupSpeedBoostActive = true;
             powerupSpeedBoostStartTime = Time.time;
             gameEventManager.SpeedOverlay.gameObject.SetActive(true);
