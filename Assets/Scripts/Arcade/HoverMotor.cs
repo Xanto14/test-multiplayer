@@ -170,22 +170,22 @@ public class HoverMotor : MonoBehaviour
         {
             // Double the score multiplier and activate the powerup effect
             Debug.Log("collision multiplier done");
-            scoreMultiplier *= 2;
+            scoreMultiplier = 2;
             powerupMultiplierActive = true;
             powerupMultiplierStartTime = Time.time;
             gameEventManager.MultiplierIcon.gameObject.SetActive(true);
-            // Disable the multiplier prefab so it can't be used again during this powerup effect
+            gameEventManager.MultiplierIcon.gameObject.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject.transform.parent.gameObject);
         }
         if (other.CompareTag("SpeedBoost"))
         {
             // Double the score multiplier and activate the powerup effect
             Debug.Log("collision speedboost done");
-            speedBoostMultiplier *= 2;
+            speedBoostMultiplier = 2;
             powerupSpeedBoostActive = true;
             powerupSpeedBoostStartTime = Time.time;
             gameEventManager.SpeedOverlay.gameObject.SetActive(true);
-            // Disable the multiplier prefab so it can't be used again during this powerup effect
+            gameEventManager.SpeedOverlay.gameObject.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject.transform.parent.gameObject);
         }
     }

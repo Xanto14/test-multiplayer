@@ -20,7 +20,7 @@ public class TileController : MonoBehaviour
 
     
     private Vector3 obstaclePosition;
-
+    private int percentageBoostSpawn;
     private List<Vector3> cubePositions;
     public int maxIterations;
     private float obstacleSize;
@@ -36,6 +36,7 @@ public class TileController : MonoBehaviour
         maxAttemptsPerIteration = 10;
         minDistanceObstacle = 60.0f;
         minDistanceBoost = 30.0f;
+        percentageBoostSpawn = 40;
 
         for (int i = 0; i < _startNumber; i++)
         {
@@ -53,7 +54,8 @@ public class TileController : MonoBehaviour
         ApplyRotationAndMovementToGenerator(tileGenerated);
         ApplyMovementCorrection(tileGenerated);
         GenerateObstacles();
-        GenerateBoost();
+        if(SpawnBoost())
+            GenerateBoost();
     }
 
     public void SpawnTile(int t)
@@ -131,11 +133,25 @@ public class TileController : MonoBehaviour
 
     private void GenerateObstacles()
     {
-        GameObject obstacle = ChooseRndObjectInList(obstacleList);
-        if (obstacle.gameObject.CompareTag("Wall"))
-            InstantiateWallObstacle(obstacle);
-        else if (obstacle.gameObject.CompareTag("Canon"))
-            InstantiateCanonObstacle(obstacle);
+        int chosenObstacle = Random.Range(0, 100);
+        if (chosenObstacle>30&&chosenObstacle<90)
+            InstantiateWallObstacle(GetListOfGameObjectsWithTag("Wall",obstacleList));
+        else if (chosenObstacle <= 30)
+            InstantiateCanonObstacle(GetListOfGameObjectsWithTag("Canon", obstacleList));
+        else { }
+    }
+
+    private List<GameObject> GetListOfGameObjectsWithTag(string tag, List<GameObject> gameObjectList)
+    {
+        List<GameObject> taggedObjects = new List<GameObject>();
+        foreach (GameObject obj in gameObjectList)
+        { 
+            if (obj.CompareTag(tag))
+            {
+                taggedObjects.Add(obj);
+            }
+        }
+        return taggedObjects;
     }
 
     private GameObject ChooseRndObjectInList(List<GameObject> liste)
@@ -144,6 +160,7 @@ public class TileController : MonoBehaviour
         return liste[r];
     }
 
+    
     private Vector3 GetRandomPositionWithinTileRange(GameObject tile)
     {
         float minX = transform.position.x - tileSize / 2f + obstacleSize / 2f;
@@ -162,8 +179,9 @@ public class TileController : MonoBehaviour
         if(maxIterations<=20)
         maxIterations += difficulty;
     }
-    private void InstantiateWallObstacle(GameObject wallPrefab)
+    private void InstantiateWallObstacle(List<GameObject> wallPrefabsList)
     {
+        GameObject wallPrefab = ChooseRndObjectInList(wallPrefabsList);
         Transform parentTransform = spawnedTiles.Last().gameObject.transform;
         cubePositions = new List<Vector3>();
         obstacleSize = wallPrefab.transform.localScale.x;
@@ -181,7 +199,11 @@ public class TileController : MonoBehaviour
                 {
                     GameObject obstacle = Instantiate(wallPrefab, obstaclePosition, Quaternion.identity,parentTransform);
                     Vector3 inverseScale = new Vector3(1f / parentTransform.localScale.x, 1f, 1f / parentTransform.localScale.z);
+                    Vector3 randomScaleMultiplier = new Vector3(Random.Range(0.5f, 1.5f), Random.Range(0.5f, 1.5f), Random.Range(0.5f, 1.5f));
                     obstacle.transform.localScale = Vector3.Scale(obstacle.transform.localScale, inverseScale);
+                    obstacle.transform.localScale = new Vector3(obstacle.transform.localScale.x*randomScaleMultiplier.x,
+                        obstacle.transform.localScale.y * randomScaleMultiplier.y, 
+                        obstacle.transform.localScale.z * randomScaleMultiplier.z);
                     cubePositions.Add(obstaclePosition);
                     cubeGenerated = true;
                     Debug.Log(obstacle);
@@ -207,22 +229,27 @@ public class TileController : MonoBehaviour
             }
         }
     }
+    private bool SpawnBoost() => Random.Range(0, 100 + 1) < percentageBoostSpawn;
 
     public void RescalePrefabInParent(Transform parentTransform, GameObject prefab)
     {
         Vector3 inverseScale = new Vector3(1f / parentTransform.localScale.x, 1f, 1f / parentTransform.localScale.z);
         prefab.transform.localScale= Vector3.Scale(prefab.transform.localScale, inverseScale);
     }
-    private void InstantiateCanonObstacle(GameObject canonPrefab)
+    private Vector3 GetRandomPositionWithinRadius(float radiusFloat)
     {
-        Vector2 radius = Random.insideUnitCircle * 0.35f;
-        GameObject canonInstantiated = Instantiate(canonPrefab, spawnedTiles.Last().transform);
+        Vector2 radius = Random.insideUnitCircle * radiusFloat;
         Vector3 newPosition = new Vector3();
         newPosition.x = radius.x;
         newPosition.z = radius.y;
-
+        return newPosition;
+    }
+    private void InstantiateCanonObstacle(List<GameObject> canonPrefabsList)
+    {
+        GameObject canonPrefab = ChooseRndObjectInList(canonPrefabsList);
+        GameObject canonInstantiated = Instantiate(canonPrefab, spawnedTiles.Last().transform);
         RescalePrefabInParent(spawnedTiles.Last().transform, canonInstantiated);
-        canonInstantiated.transform.localPosition = newPosition;
+        canonInstantiated.transform.localPosition = GetRandomPositionWithinRadius(0.35f);
     }
 
     bool CheckOverlap(Vector3 position, List<Vector3> listeObjets,float distanceMin)
@@ -261,22 +288,17 @@ public class TileController : MonoBehaviour
 
     private void InstantiateBoost(GameObject boostPrefab)
     {
-        Vector3 nouvellePosition;
-        nouvellePosition = GetRandomPositionWithinTileRange(spawnedTiles.Last());
         
+        GameObject boostInstantiated = Instantiate(boostPrefab,spawnedTiles.Last().transform);
+        Vector3 nouvellePosition = boostInstantiated.transform.position+ GetRandomPositionWithinRadius(0.35f);
 
         while (CheckOverlap(nouvellePosition, GetListChildVector3InParent(spawnedTiles.Last()),minDistanceBoost))
-        {
-            nouvellePosition = GetRandomPositionWithinTileRange(spawnedTiles.Last());
-        }
+            nouvellePosition = GetRandomPositionWithinRadius(0.35f);
 
-        GameObject boostInstantiated = Instantiate(boostPrefab, nouvellePosition, Quaternion.identity, spawnedTiles.Last().transform);
-        //Debug.Log("Position normal avant : " + boostInstantiated.transform.position);
-        //Debug.Log("Position local avant : " + boostInstantiated.transform.localPosition);
+        boostInstantiated.transform.localPosition = nouvellePosition;
+
         Vector3 halfSizeOffset = new Vector3(0, boostInstantiated.transform.GetChild(1).transform.localScale.y/2f, 0);
         boostInstantiated.transform.Translate(halfSizeOffset, Space.Self);
-        //Debug.Log("Position normal apres : " + boostInstantiated.transform.position);
-        //Debug.Log("Position local apres : " + boostInstantiated.transform.localPosition);
         boostInstantiated.transform.position += halfSizeOffset;
         RescalePrefabInParent(spawnedTiles.Last().transform, boostInstantiated);
     }
