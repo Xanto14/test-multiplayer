@@ -5,52 +5,81 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameEventManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI scoreDisplay;
+    [SerializeField] public TextMeshProUGUI scoreDisplay;
+    [SerializeField] private GameObject multiplierIcon;
+    [SerializeField] private GameObject speedOverlay;
     [SerializeField] private GameObject gameOverDisplay;
     [SerializeField] public GameObject playerGameObject;
     [SerializeField] private GameObject explosionPrefab;
-    
-    
+    public int Difficulty { get { return Difficulty; } }
+
+    private TileController tileController;
     private bool isPlaying;
-    private float playerScore;
-    private int scoreMultiplierOvertime;
+    private float playerScoreFloat;
+    private int playerScoreInt;
+    private int lastScoreSlice;
+    public int scoreSliceSize;
+    private float scoreMultiplierOvertime;
     private int deathZoneHeight = -5;
     private Transform playerTransform;
     public bool collidedWithEnemy;
+    private int difficulty;
     public bool IsPlaying { get => isPlaying; }
-    private HoverMotor hoverMotorPlayer;
+    public GameObject MultiplierIcon { get => multiplierIcon; }
+    public GameObject SpeedOverlay { get => speedOverlay; }
+
 
     private void Awake()
     {
+        tileController = gameObject.GetComponent<TileController>();
         isPlaying = false;
         collidedWithEnemy = false;
+        lastScoreSlice = 0;
+        scoreSliceSize = 10000;
         scoreMultiplierOvertime = 110;
         gameOverDisplay.SetActive(false);
         playerTransform = playerGameObject.transform;
-        hoverMotorPlayer = playerGameObject.GetComponent<HoverMotor>();
     }
 
     private void Update()
     {
-        updateScore();
-        gameOverCondition();
+        int currentScoreSlice = Mathf.FloorToInt(playerScoreInt / scoreSliceSize);
+        if (SliceCrossed(currentScoreSlice))
+        {
+            MakeGameHarder();
+            lastScoreSlice = currentScoreSlice;
+        }
+        UpdateScore();
+        GameOverCondition();
     }
-    
-    private void updateScore()
+
+    private bool SliceCrossed(int currentScoreSlice)=>currentScoreSlice > lastScoreSlice;
+        
+
+    private void MakeGameHarder()
+    {
+        difficulty++;
+        scoreMultiplierOvertime *= 1.25f;
+        tileController.SetMaxIterations(difficulty);
+    }
+
+    private void UpdateScore()
     {
         if (isPlaying)
         {
-            playerScore += Time.deltaTime * scoreMultiplierOvertime * playerGameObject.GetComponent<HoverMotor>().scoreMultiplier;
+            playerScoreFloat += Time.deltaTime * scoreMultiplierOvertime * playerGameObject.GetComponent<HoverMotor>().scoreMultiplier;
+            playerScoreInt = (int)playerScoreFloat;
 
-
-            scoreDisplay.text = $"{playerScore:f0}";
+            //scoreDisplay.text = $"{playerScore:f0}";
+            scoreDisplay.text = playerScoreInt.ToString();
         }
     }
 
-    private void gameOverCondition()
+    private void GameOverCondition()
     {
         if (playerTransform.position.y < deathZoneHeight)
         {

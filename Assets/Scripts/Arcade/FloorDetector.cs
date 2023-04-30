@@ -24,7 +24,7 @@ public class FloorDetector : MonoBehaviour
         //hardcoded à améliorer
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log(hit.distance);
+            //Debug.Log(hit.distance);
             if (hit.distance >= 2.5f)
             {
                 hoverMotor.ModifyPlayerSpeed(0.5f);

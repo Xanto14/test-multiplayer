@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 297470707017837985}
   m_Layer: 0
   m_Name: ScoreMultiplier
-  m_TagString: Untagged
+  m_TagString: Multiplier
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 7200156246612852730}
   m_Layer: 0
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: Multiplier
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,8 +125,8 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8008250136176554600}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
+  m_IsTrigger: 1
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.0000002, y: 1.0000006, z: 1.0000004}
   m_Center: {x: 3.5527137e-13, y: -0.000011682513, z: 2.6645353e-13}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 1341778210046200289}
   m_Layer: 0
   m_Name: Model
-  m_TagString: Untagged
+  m_TagString: Multiplier
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 5281345176803255820}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Multiplier
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,7 +269,7 @@ BoxCollider:
   m_GameObject: {fileID: 8544709332739316532}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

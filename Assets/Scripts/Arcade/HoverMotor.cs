@@ -22,11 +22,15 @@ public class HoverMotor : MonoBehaviour
 
     [SerializeField] private GameObject gameManager;
     private float speedMultiplier;
+    private float speedBoostMultiplier;
 
-    public float powerupDuration = 5.0f;
     public int scoreMultiplier;
-    private bool powerupMultiplierActive = false;
-    private float powerupMultiplierStartTime = 0.0f;
+    private bool powerupMultiplierActive;
+    private float powerupMultiplierStartTime;
+    private float powerupDuration;
+
+    private bool powerupSpeedBoostActive;
+    private float powerupSpeedBoostStartTime;
 
     Quaternion rotation;
     Quaternion rotationModel;
@@ -37,12 +41,40 @@ public class HoverMotor : MonoBehaviour
         gameEventManager = gameManager.GetComponent<GameEventManager>();
         carRigidbody = GetComponent<Rigidbody>();
         speedMultiplier = 1f;
+        speedBoostMultiplier = 1f;
         scoreMultiplier = 1;
-    }
+        powerupMultiplierActive = false;
+        powerupSpeedBoostActive = false;
+        powerupMultiplierStartTime = 0.0f;
+        powerupSpeedBoostStartTime = 0.0f;
+        powerupDuration = 5.0f;
+}
 
     void Update()
     {
-        if(gameEventManager.IsPlaying)
+        if (powerupMultiplierActive)
+        {
+            if (Time.time >= powerupMultiplierStartTime + powerupDuration)
+            {
+                // Deactivate the powerup effect and reset the score multiplier
+                powerupMultiplierActive = false;
+                scoreMultiplier /= 2;
+                gameEventManager.MultiplierIcon.gameObject.SetActive(false);
+            }
+        }
+
+        if (powerupSpeedBoostActive)
+        {
+            if (Time.time >= powerupSpeedBoostStartTime + powerupDuration)
+            {
+                // Deactivate the powerup effect and reset the score multiplier
+                powerupSpeedBoostActive = false;
+                speedBoostMultiplier /= 2;
+                gameEventManager.SpeedOverlay.gameObject.SetActive(false);
+            }
+        }
+
+        if (gameEventManager.IsPlaying)
         {
             if (Input.GetButton("Vertical"))
         {
@@ -100,13 +132,13 @@ public class HoverMotor : MonoBehaviour
         if (accelerating)
         {
             burnerParticles.Play();
-            carRigidbody.AddForce(transform.forward * speed * speedMultiplier, ForceMode.Acceleration);
+            carRigidbody.AddForce(transform.forward * speed * (speedMultiplier* speedBoostMultiplier), ForceMode.Acceleration);
             reversing = false;
         }
         else if (reversing)
         {
 
-            carRigidbody.AddForce(transform.forward * -speed * speedMultiplier * .5f, ForceMode.Acceleration);
+            carRigidbody.AddForce(transform.forward * -speed * (speedMultiplier* speedBoostMultiplier) * .5f, ForceMode.Acceleration);
         }
         else
         {
@@ -131,6 +163,31 @@ public class HoverMotor : MonoBehaviour
         }
         
 
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Multiplier"))
+        {
+            // Double the score multiplier and activate the powerup effect
+            Debug.Log("collision multiplier done");
+            scoreMultiplier *= 2;
+            powerupMultiplierActive = true;
+            powerupMultiplierStartTime = Time.time;
+            gameEventManager.MultiplierIcon.gameObject.SetActive(true);
+            // Disable the multiplier prefab so it can't be used again during this powerup effect
+            Destroy(other.gameObject.transform.parent.gameObject);
+        }
+        if (other.CompareTag("SpeedBoost"))
+        {
+            // Double the score multiplier and activate the powerup effect
+            Debug.Log("collision speedboost done");
+            speedBoostMultiplier *= 2;
+            powerupSpeedBoostActive = true;
+            powerupSpeedBoostStartTime = Time.time;
+            gameEventManager.SpeedOverlay.gameObject.SetActive(true);
+            // Disable the multiplier prefab so it can't be used again during this powerup effect
+            Destroy(other.gameObject.transform.parent.gameObject);
+        }
     }
 
     public void ModifyPlayerSpeed(float multiplier)

@@ -18,9 +18,7 @@ public class TileController : MonoBehaviour
     [SerializeField] private List<GameObject> boostList;
     [SerializeField] private GameObject tileGenerator;
 
-    private float tileWidth;
-    private float tileHeight;
-    private Vector3 tilePosition;
+    
     private Vector3 obstaclePosition;
 
     private List<Vector3> cubePositions;
@@ -159,7 +157,11 @@ public class TileController : MonoBehaviour
                                 Random.Range(minZ, maxZ));
         return nouvellePosition;
     }
-
+    public void SetMaxIterations(int difficulty)
+    {
+        if(maxIterations<=20)
+        maxIterations += difficulty;
+    }
     private void InstantiateWallObstacle(GameObject wallPrefab)
     {
         Transform parentTransform = spawnedTiles.Last().gameObject.transform;
