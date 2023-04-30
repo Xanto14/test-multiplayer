@@ -39,9 +39,8 @@ public class EnemyManager : MonoBehaviour
         // If the sphere has reached the current target object, move to the next one
         if (direction.magnitude < 0.1f)
             tileController.DestroyFirstTile();
-        Debug.Log(gameEventManager.playerGameObject.GetComponent<HoverMotor>().topSpeed);
         //acceleration
-        if(gameEventManager.playerGameObject.GetComponent<HoverMotor>().topSpeed < moveSpeed)
+        if(gameEventManager.playerGameObject.GetComponent<HoverMotor>().topSpeed > moveSpeed)
         moveSpeed += 1f * Time.deltaTime;
     }
 

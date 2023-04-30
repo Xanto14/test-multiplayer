@@ -107,7 +107,6 @@ public class GameEventManager : MonoBehaviour
 
         if (player.transform.GetChild(2).gameObject.activeSelf)
         {
-            Debug.Log("amogus");
             Instantiate(explosionPrefab, player.transform.GetChild(2).gameObject.transform.position, Quaternion.identity);
             player.transform.GetChild(2).gameObject.SetActive(false);
         }
