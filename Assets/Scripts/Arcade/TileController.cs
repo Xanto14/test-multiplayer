@@ -13,7 +13,7 @@ public class TileController : MonoBehaviour
     const int PERCENTAGE_BOOST_SPAWN = 40;
     const float MIN_DISTANCE_OBSTACLE = 60.0f;
     const float MIN_DISTANCE_BOOST = 30.0f;
-    private int _startNumber = 2;
+    private int _startNumber = 5;
     private int _turns;
 
     [SerializeField] private int tileSize = 30;
@@ -28,6 +28,8 @@ public class TileController : MonoBehaviour
     public int maxIterations;
     private float obstacleSize;
     public List<GameObject> spawnedTiles;
+    public List<GameObject> spawnedWalls;
+
 
     private void Start()
     {
@@ -42,7 +44,7 @@ public class TileController : MonoBehaviour
 
     public void SpawnTile()
     {
-        int tileGenerated = Rnd();
+        int tileGenerated = GetRndTile();
 
         spawnedTiles.Add(Instantiate(tileList[tileGenerated], tileGenerator.transform.position,
             tileGenerator.transform.rotation));
@@ -98,9 +100,10 @@ public class TileController : MonoBehaviour
     {
         Destroy(spawnedTiles[0]);
         spawnedTiles.Remove(spawnedTiles[0]);
+        
     }
 
-    private int Rnd()
+    private int GetRndTile()
     {
         var r = Random.Range(0, tileList.Count);
         switch (r)
@@ -112,7 +115,6 @@ public class TileController : MonoBehaviour
                     r = 1;
                     _turns = 0;
                 }
-
                 break;
             case 1:
                 _turns--;
@@ -121,7 +123,6 @@ public class TileController : MonoBehaviour
                     r = 0;
                     _turns = 0;
                 }
-
                 break;
         }
         return r;
@@ -173,7 +174,7 @@ public class TileController : MonoBehaviour
     public void SetMaxIterations(int difficulty)
     {
         if(maxIterations<=20)
-        maxIterations += difficulty;
+            maxIterations += difficulty;
     }
     private void InstantiateWallObstacle(List<GameObject> wallPrefabsList)
     {
@@ -201,7 +202,6 @@ public class TileController : MonoBehaviour
                         obstacle.transform.localScale.y * randomScaleMultiplier.y, 
                         obstacle.transform.localScale.z * randomScaleMultiplier.z);
                     cubePositions.Add(obstaclePosition);
-                    cubeGenerated = true;
                     Debug.Log(obstacle);
 
                     float randomXRotation = Random.Range(-30f, 30f);
@@ -213,15 +213,10 @@ public class TileController : MonoBehaviour
                     
                     obstacle.transform.Translate(Vector3.up * halfHeight, Space.Self);
                     cubeModel.rotation = Quaternion.Euler(randomXRotation, randomYRotation, randomZRotation);
+                    
+                    spawnedWalls.Add(obstacle);
                     break;
                 }
-
-
-            }
-            if (!cubeGenerated)
-            {
-                Debug.Log("Max attempts reached, stopping generation.");
-                break;
             }
         }
     }
@@ -284,7 +279,6 @@ public class TileController : MonoBehaviour
 
     private void InstantiateBoost(GameObject boostPrefab)
     {
-        
         GameObject boostInstantiated = Instantiate(boostPrefab,spawnedTiles.Last().transform);
         Vector3 nouvellePosition = boostInstantiated.transform.position+ GetRandomPositionWithinRadius(0.35f);
 
@@ -299,9 +293,5 @@ public class TileController : MonoBehaviour
         RescalePrefabInParent(spawnedTiles.Last().transform, boostInstantiated);
     }
 
-
-
-
-
-
+   
 }

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using Random = UnityEngine.Random;
 
 public class GameEventManager : MonoBehaviour
 {
@@ -14,8 +15,15 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] private GameObject speedOverlay;
     [SerializeField] private GameObject gameOverDisplay;
     [SerializeField] public GameObject playerGameObject;
+    [SerializeField] private GameObject vortexPrefab;
+
+
     [SerializeField] private GameObject explosionPrefab;
-    public int Difficulty { get { return Difficulty; } }
+
+    public int Difficulty
+    {
+        get { return Difficulty; }
+    }
 
     private TileController tileController;
     private bool isPlaying;
@@ -28,9 +36,22 @@ public class GameEventManager : MonoBehaviour
     private Transform playerTransform;
     public bool collidedWithEnemy;
     private int difficulty;
-    public bool IsPlaying { get => isPlaying; }
-    public GameObject MultiplierIcon { get => multiplierIcon; }
-    public GameObject SpeedOverlay { get => speedOverlay; }
+    private Color wallColor;
+
+    public bool IsPlaying
+    {
+        get => isPlaying;
+    }
+
+    public GameObject MultiplierIcon
+    {
+        get => multiplierIcon;
+    }
+
+    public GameObject SpeedOverlay
+    {
+        get => speedOverlay;
+    }
 
 
     private void Awake()
@@ -39,7 +60,7 @@ public class GameEventManager : MonoBehaviour
         isPlaying = false;
         collidedWithEnemy = false;
         lastScoreSlice = 0;
-        scoreSliceSize = 10000;
+        scoreSliceSize = 5000;
         scoreMultiplierOvertime = 110;
         gameOverDisplay.SetActive(false);
         playerTransform = playerGameObject.transform;
@@ -47,32 +68,46 @@ public class GameEventManager : MonoBehaviour
 
     private void Update()
     {
-        int currentScoreSlice = Mathf.FloorToInt(playerScoreInt / scoreSliceSize);
-        if (SliceCrossed(currentScoreSlice))
-        {
-            MakeGameHarder();
-            lastScoreSlice = currentScoreSlice;
-        }
         UpdateScore();
+        ManageDifficulty();
         GameOverCondition();
     }
 
-    private bool SliceCrossed(int currentScoreSlice)=>currentScoreSlice > lastScoreSlice;
-        
 
-    private void MakeGameHarder()
+    private void ManageDifficulty()
     {
-        difficulty++;
-        scoreMultiplierOvertime *= 1.25f;
-        tileController.SetMaxIterations(difficulty);
+        int currentScoreSlice = Mathf.FloorToInt(playerScoreInt / scoreSliceSize);
+        if (currentScoreSlice > lastScoreSlice)
+        {
+            difficulty++;
+            scoreMultiplierOvertime *= 1.025f;
+            tileController.SetMaxIterations(difficulty);
+            wallColor = Color.HSVToRGB(Random.Range(0f, 1f), 1, 1);
+            foreach (var wallObstacle in tileController.spawnedWalls)
+            {
+                if (wallObstacle != null)
+                {
+                    Renderer renderer = wallObstacle.GetComponentInChildren<Renderer>();
+
+                    if (renderer != null)
+                        renderer.material.color = wallColor;
+                }
+            }
+
+            vortexPrefab.GetComponent<EnemyManager>().moveSpeed += 25 * (scoreSliceSize / 10000f);
+
+            lastScoreSlice = currentScoreSlice;
+        }
     }
+
 
     private void UpdateScore()
     {
         if (isPlaying)
         {
-            playerScoreFloat += Time.deltaTime * scoreMultiplierOvertime * playerGameObject.GetComponent<HoverMotor>().scoreMultiplier;
-            playerScoreInt = (int)playerScoreFloat;
+            playerScoreFloat += Time.deltaTime * scoreMultiplierOvertime *
+                                playerGameObject.GetComponent<HoverMotor>().scoreMultiplier;
+            playerScoreInt = (int) playerScoreFloat;
 
             //scoreDisplay.text = $"{playerScore:f0}";
             scoreDisplay.text = playerScoreInt.ToString();
@@ -98,7 +133,6 @@ public class GameEventManager : MonoBehaviour
                 GameOverSequence(playerGameObject);
             }
         }
-        
     }
 
     IEnumerator GameOverSequence(GameObject player)
@@ -107,25 +141,25 @@ public class GameEventManager : MonoBehaviour
 
         if (player.transform.GetChild(2).gameObject.activeSelf)
         {
-            Instantiate(explosionPrefab, player.transform.GetChild(2).gameObject.transform.position, Quaternion.identity);
+            Instantiate(explosionPrefab, player.transform.GetChild(2).gameObject.transform.position,
+                Quaternion.identity);
             player.transform.GetChild(2).gameObject.SetActive(false);
         }
 
         yield return new WaitForSeconds(1);
 
         gameOverDisplay.SetActive(true);
-        
     }
+
     public void GameStartSequence()
     {
         isPlaying = true;
     }
-    
+
     public void OnClickLoadScene(int scene)
     {
-        if(Time.timeScale==0f)
+        if (Time.timeScale == 0f)
             Time.timeScale = 1f;
         SceneManager.LoadScene(scene);
     }
-    
 }

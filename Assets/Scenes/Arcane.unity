@@ -6495,6 +6495,7 @@ MonoBehaviour:
   tileGenerator: {fileID: 1220295444}
   maxIterations: 3
   spawnedTiles: []
+  spawnedWalls: []
 --- !u!4 &239915043
 Transform:
   m_ObjectHideFlags: 0
@@ -6528,8 +6529,9 @@ MonoBehaviour:
   speedOverlay: {fileID: 1993701521}
   gameOverDisplay: {fileID: 1520777163}
   playerGameObject: {fileID: 1063248072}
+  vortexPrefab: {fileID: 1201564258}
   explosionPrefab: {fileID: 8172167711741781364, guid: c15f22e55a7227042be244d53960671e, type: 3}
-  scoreSliceSize: 0
+  scoreSliceSize: 1000
   collidedWithEnemy: 0
 --- !u!212 &239915045
 SpriteRenderer:
