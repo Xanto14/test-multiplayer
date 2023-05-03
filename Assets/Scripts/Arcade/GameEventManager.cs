@@ -13,6 +13,7 @@ public class GameEventManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI scoreDisplay;
     [SerializeField] private GameObject multiplierIcon;
     [SerializeField] private GameObject speedOverlay;
+    [SerializeField] private GameObject inkOverlay;
     [SerializeField] private GameObject gameOverDisplay;
     [SerializeField] public GameObject playerGameObject;
     [SerializeField] private GameObject vortexPrefab;
@@ -20,10 +21,7 @@ public class GameEventManager : MonoBehaviour
 
     [SerializeField] private GameObject explosionPrefab;
 
-    public int Difficulty
-    {
-        get { return Difficulty; }
-    }
+    
 
     private TileController tileController;
     private bool isPlaying;
@@ -38,20 +36,13 @@ public class GameEventManager : MonoBehaviour
     private int difficulty;
     private Color wallColor;
 
-    public bool IsPlaying
-    {
-        get => isPlaying;
-    }
+    public int Difficulty { get { return Difficulty; } }
 
-    public GameObject MultiplierIcon
-    {
-        get => multiplierIcon;
-    }
+    public bool IsPlaying { get => isPlaying; }
 
-    public GameObject SpeedOverlay
-    {
-        get => speedOverlay;
-    }
+    public GameObject MultiplierIcon { get => multiplierIcon; }
+
+    public GameObject SpeedOverlay { get => speedOverlay; }
 
 
     private void Awake()
@@ -151,10 +142,8 @@ public class GameEventManager : MonoBehaviour
         gameOverDisplay.SetActive(true);
     }
 
-    public void GameStartSequence()
-    {
-        isPlaying = true;
-    }
+    public void GameStartSequence()=> isPlaying = true;
+    public void ApplyInk(bool status) => inkOverlay.SetActive(status);
 
     public void OnClickLoadScene(int scene)
     {
@@ -162,4 +151,11 @@ public class GameEventManager : MonoBehaviour
             Time.timeScale = 1f;
         SceneManager.LoadScene(scene);
     }
+
+    public void RemoveScore(int score)
+    {
+        if(playerScoreFloat>1000)
+        playerScoreFloat -= score;
+    }
+
 }

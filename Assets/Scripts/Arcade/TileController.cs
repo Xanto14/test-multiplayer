@@ -187,7 +187,6 @@ public class TileController : MonoBehaviour
         for (int i = 0; i < maxIterations; i++)
         {
             Debug.Log("Maxiterations: "+ i +"/"+maxIterations);
-            bool cubeGenerated = false;
             for (int j = 0; j < MAX_ATTEMPTS_PER_ITERATION; j++)
             {
                 obstaclePosition = GetRandomPositionWithinTileRange(spawnedTiles.Last());

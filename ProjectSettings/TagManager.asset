@@ -8,6 +8,10 @@ TagManager:
   - Canon
   - SpeedBoost
   - Multiplier
+  - BouletGlace
+  - BouletOnline
+  - BouletEncre
+  - BouletScore
   layers:
   - Default
   - TransparentFX

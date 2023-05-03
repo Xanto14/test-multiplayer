@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HoverMotor : MonoBehaviour
 {
@@ -39,13 +40,23 @@ public class HoverMotor : MonoBehaviour
     private Color boostFlameColor;
     private Color baseFlameColor;
 
+    private float iceNerf;
 
+    private List<Color> shipBaseColorList;
+
+    private Renderer[] renderers;
     Quaternion rotation;
     Quaternion rotationModel;
     public GameEventManager gameEventManager;
 
     void Awake()
     {
+        shipBaseColorList = new List<Color>();
+        renderers = ShipModelTransform.gameObject.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+            shipBaseColorList.Add(renderer.material.color);
+
+        iceNerf = 1.0f;
         boostFlameColor = Color.blue;
         var main = leftBurnerParticles.main;
         baseFlameColor = main.startColor.color;
@@ -154,7 +165,7 @@ public class HoverMotor : MonoBehaviour
             leftBurnerParticles.gameObject.SetActive(true);
             rightBurnerParticles.gameObject.SetActive(true);
 
-                shipRigidbody.AddForce(transform.forward * speed * (speedMultiplier* speedBoostMultiplier), ForceMode.Acceleration);
+                shipRigidbody.AddForce(transform.forward * speed * (speedMultiplier* speedBoostMultiplier)*iceNerf, ForceMode.Acceleration);
             reversing = false;
         }
         else if (reversing)
@@ -223,9 +234,23 @@ public class HoverMotor : MonoBehaviour
 
     }
 
-    public void ModifyPlayerSpeed(float multiplier)
-    {
-        speedMultiplier = multiplier;
-    }
+    public void ModifyPlayerSpeed(float multiplier)=> speedMultiplier = multiplier;
 
+    public void ModifyIceNerf(float nerf) => iceNerf = nerf;
+
+    public void ModifyShipColor (Color color)
+    {
+        foreach (Renderer renderer in renderers)
+            renderer.material.color = color;
+    }
+    public void ModifyShipColor()
+    {
+        int index=0;
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.material.color = shipBaseColorList[index];
+            index++;
+        }
+    }
+    
 }
