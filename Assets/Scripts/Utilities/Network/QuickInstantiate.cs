@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using Photon.Pun.UtilityScripts;
 
 public class QuickInstantiate : MonoBehaviourPunCallbacks
 {
@@ -13,49 +14,62 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
     private void Awake()
     {
         //Spawn les cubes des différents joueurs randomly de 3 a -3 pour pas qu'ils soient stacked
-        Vector2 offset = UnityEngine.Random.insideUnitSphere * 3f;
-        Player[] listeJoueurs = PhotonNetwork.PlayerList;
-        int index = 0;
-        while (PhotonNetwork.LocalPlayer!=listeJoueurs[index])
-        {
-            index++;
-        }
-        Vector3 position= new Vector3(transform.position.x + offset.x,transform.position.y + offset.y, transform.position.z);
-        //spawn a la position de l'index de la liste de postions de spawn
+        //Vector2 offset = UnityEngine.Random.insideUnitSphere * 3f;
+        //Player[] listeJoueurs = PhotonNetwork.PlayerList;
+        //int index = 0;
+        //while (PhotonNetwork.LocalPlayer!=listeJoueurs[index])
+        //{
+        //    index++;
+        //}
+        //Vector3 position= new Vector3(transform.position.x + offset.x,transform.position.y + offset.y, transform.position.z);
+        ////spawn a la position de l'index de la liste de postions de spawn
         
-        int ship = (int)PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
+        //int ship = (int)PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
 
-        GameObject vaisseau =MasterManager.NetworkInstantiate(shipPrefabs[ship], position, Quaternion.identity);
-        vaisseau.GetComponent<RotationObject>().enabled = false;
-        vaisseau.GetComponent<ChangeShipIcon>().enabled = false;
-        vaisseau.GetComponent<ShipMenuAnimation>().enabled = false;
+        //GameObject vaisseau =MasterManager.NetworkInstantiate(shipPrefabs[ship], position, Quaternion.identity);
+        //vaisseau.GetComponent<RotationObject>().enabled = false;
+        //vaisseau.GetComponent<ChangeShipIcon>().enabled = false;
+        //vaisseau.GetComponent<ShipMenuAnimation>().enabled = false;
     }
 
     public override void OnJoinedRoom()
     {
-        // Get the local player's actor number
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-
-        // Instantiate the ship prefab with ownership
-        GameObject ship = PhotonNetwork.Instantiate(shipPrefabs[actorNumber % shipPrefabs.Length].name, spawnPoints[actorNumber % spawnPoints.Length].position, Quaternion.identity);
+        int shipNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
+        GameObject ship = PhotonNetwork.Instantiate(shipPrefabs[shipNumber].name, spawnPoints[actorNumber % spawnPoints.Length].position, Quaternion.identity);
         PhotonView photonView = ship.GetComponent<PhotonView>();
         photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-
-        // Assign the player to a spawn point
         ship.transform.position = spawnPoints[actorNumber % spawnPoints.Length].position;
     }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        // Get the new player's actor number
         int actorNumber = newPlayer.ActorNumber;
-
-        // Instantiate the ship prefab with ownership
-        GameObject ship = PhotonNetwork.Instantiate(shipPrefabs[actorNumber % shipPrefabs.Length].name, spawnPoints[actorNumber % spawnPoints.Length].position, Quaternion.identity);
+        int shipNumber = newPlayer.GetPlayerNumber();
+        GameObject ship = PhotonNetwork.Instantiate(shipPrefabs[shipNumber].name, GetNextAvailableSpawnPoint().position, Quaternion.identity);
         PhotonView photonView = ship.GetComponent<PhotonView>();
         photonView.TransferOwnership(newPlayer);
+        ship.transform.position = GetNextAvailableSpawnPoint().position;
+    }
 
-        // Assign the player to the next available spawn point
-        //ship.transform.position = spawnPoints[actorNumber % spawn];
-             }
+    public override void OnLeftRoom()
+    {
+        // Reset the spawn point index to 0 when the local player leaves the room
+        nextSpawnPointIndex = 0;
+    }
+
+    private Transform GetNextAvailableSpawnPoint()
+    {
+        Transform spawnPoint = spawnPoints[nextSpawnPointIndex];
+        nextSpawnPointIndex = (nextSpawnPointIndex + 1) % spawnPoints.Length;
+        return spawnPoint;
+    }
+    private int nextSpawnPointIndex = 0;
+
+    private int GetPlayerNumber()
+    {
+        int shipNumber = (int)PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
+        return shipNumber;
+    }
 
 }
