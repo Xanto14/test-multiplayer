@@ -75,11 +75,11 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         {
             if (_ready)
             {
-                _readyUpText.text = "Ready!";
+                _readyUpText.text = "Ready";
             }
             else
             {
-                _readyUpText.text = "Ready?";
+                _readyUpText.text = "Not Ready";
             }
         }
 

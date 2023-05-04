@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class ShipSelection : MonoBehaviour
 {
-    private ExitGames.Client.Photon.Hashtable myCustomProperties = new ExitGames.Client.Photon.Hashtable();
+    //private ExitGames.Client.Photon.Hashtable myCustomProperties = new ExitGames.Client.Photon.Hashtable();
     [SerializeField] private Button nextButton;
     [SerializeField] private Button previousButton;
 
@@ -32,10 +32,28 @@ private void Awake()
         SelectShip(currentShip);
     }
 
+    //public void OnClick_BindShip()
+    //{
+    //    myCustomProperties["ShipNumber"] = currentShip;
+    //    PhotonNetwork.LocalPlayer.CustomProperties = myCustomProperties;
+    //    PhotonNetwork.SetPlayerCustomProperties(myCustomProperties);
+    //}
     public void OnClick_BindShip()
     {
-        myCustomProperties["ShipNumber"] = currentShip;
-        PhotonNetwork.LocalPlayer.CustomProperties = myCustomProperties;
-        PhotonNetwork.SetPlayerCustomProperties(myCustomProperties);
+
+        // Get the value of a specific custom property
+        //if (customProps.ContainsKey("ShipNumber"))
+        //{
+            // Do something with the value...
+        //}
+        Debug.Log("shipNumber avant : " + currentShip);
+        Debug.Log("custom property avant : " );
+
+        ExitGames.Client.Photon.Hashtable customProps = new ExitGames.Client.Photon.Hashtable();
+        customProps["ShipNumber"] = currentShip;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
+
+        Debug.Log("shipNumber apres : " + currentShip);
+        Debug.Log("custom property apres: " );
     }
 }
