@@ -73,18 +73,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
     private void SetReadyUp(bool state)
     {
+        Debug.Log(state);
         _ready = state;
-        if (state)
-        {
+        //if (state)
+        //{
             if (_ready)
             {
                 _readyUpText.text = "Ready";
+                _readyUpText.color = Color.green;
             }
             else
             {
                 _readyUpText.text = "Not Ready";
+                _readyUpText.color = Color.red;
             }
-        }
+        //}
 
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -128,7 +131,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient)
         {
-            //SetReadyUp(!_ready);
+            SetReadyUp(!_ready);
             base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, _ready);
         }
     }

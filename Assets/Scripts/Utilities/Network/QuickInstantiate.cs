@@ -12,6 +12,7 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
     [SerializeField] private List<GameObject> shipPrefabs;
     public List<GameObject> ships;
     public Transform[] spawnPoints;
+    private int nextSpawnPointIndex = 0;
 
     void Start()
     {
@@ -28,12 +29,14 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
         if (shipNumber >= 0 && shipNumber < shipPrefabs.Count)
         {
             GameObject shipPrefab = shipPrefabs[shipNumber];
-            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(-10f, 10f), 0f, UnityEngine.Random.Range(-10f, 10f)); // Or some other spawn position
+
+            Transform spawnPointTransform = GetNextAvailableSpawnPoint();
+            Vector3 spawnPosition = spawnPointTransform.position;
             GameObject ship = PhotonNetwork.InstantiateRoomObject(shipPrefab.name, spawnPosition, Quaternion.identity);
             ships.Add(ship);
         }
     }
-
+ 
     // Call this method for each player in the room
     public void InstantiateAllPlayerShips()
     {
@@ -43,13 +46,13 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
         }
     }
 
-    //private Transform GetNextAvailableSpawnPoint()
-    //{
-    //    Transform spawnPoint = spawnPoints[nextSpawnPointIndex];
-    //    nextSpawnPointIndex = (nextSpawnPointIndex + 1) % spawnPoints.Length;
-    //    return spawnPoint;
-    //}
-    //private int nextSpawnPointIndex = 0;
+    private Transform GetNextAvailableSpawnPoint()
+    {
+        Transform spawnPoint = spawnPoints[nextSpawnPointIndex];
+        nextSpawnPointIndex = (nextSpawnPointIndex + 1) % spawnPoints.Length;
+        return spawnPoint;
+    }
+    
 
 
     public int GetPlayerShipNumber(Photon.Realtime.Player player)
