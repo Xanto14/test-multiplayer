@@ -6,6 +6,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
 using static System.Net.Mime.MediaTypeNames;
+using UnityEngine.UIElements;
 
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
@@ -58,6 +59,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
         else
         {
+            Vector3 position = _content.position;
+            Quaternion rotation = _content.rotation;
             PhotonNetwork.LocalPlayer.NickName = playerName.text;
             PlayerListing listing = Instantiate(_playerListing, _content);
             if (listing != null)
