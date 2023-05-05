@@ -6,6 +6,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
 using static System.Net.Mime.MediaTypeNames;
+using UnityEngine.UIElements;
 
 public class PlayerListingsMenu : MonoBehaviourPunCallbacks
 {
@@ -58,6 +59,8 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
         }
         else
         {
+            Vector3 position = _content.position;
+            Quaternion rotation = _content.rotation;
             PhotonNetwork.LocalPlayer.NickName = playerName.text;
             PlayerListing listing = Instantiate(_playerListing, _content);
             if (listing != null)
@@ -70,18 +73,21 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     }
     private void SetReadyUp(bool state)
     {
+        Debug.Log(state);
         _ready = state;
-        if (state)
-        {
+        //if (state)
+        //{
             if (_ready)
             {
-                _readyUpText.text = "Ready!";
+                _readyUpText.text = "Ready";
+                _readyUpText.color = Color.green;
             }
             else
             {
-                _readyUpText.text = "Ready?";
+                _readyUpText.text = "Not Ready";
+                _readyUpText.color = Color.red;
             }
-        }
+        //}
 
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -125,7 +131,7 @@ public class PlayerListingsMenu : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient)
         {
-            //SetReadyUp(!_ready);
+            SetReadyUp(!_ready);
             base.photonView.RPC("RPC_ChangeReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, _ready);
         }
     }

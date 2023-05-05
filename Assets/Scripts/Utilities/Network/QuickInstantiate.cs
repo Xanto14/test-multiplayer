@@ -5,57 +5,45 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using Photon.Pun.UtilityScripts;
+using System.Linq;
 
 public class QuickInstantiate : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject[] shipPrefabs;
+    [SerializeField] private List<GameObject> shipPrefabs;
+    public List<GameObject> ships;
     public Transform[] spawnPoints;
+    private int nextSpawnPointIndex = 0;
 
-    private void Awake()
+    void Start()
     {
-        //Spawn les cubes des différents joueurs randomly de 3 a -3 pour pas qu'ils soient stacked
-        //Vector2 offset = UnityEngine.Random.insideUnitSphere * 3f;
-        //Player[] listeJoueurs = PhotonNetwork.PlayerList;
-        //int index = 0;
-        //while (PhotonNetwork.LocalPlayer!=listeJoueurs[index])
-        //{
-        //    index++;
-        //}
-        //Vector3 position= new Vector3(transform.position.x + offset.x,transform.position.y + offset.y, transform.position.z);
-        ////spawn a la position de l'index de la liste de postions de spawn
-        
-        //int ship = (int)PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
-
-        //GameObject vaisseau =MasterManager.NetworkInstantiate(shipPrefabs[ship], position, Quaternion.identity);
-        //vaisseau.GetComponent<RotationObject>().enabled = false;
-        //vaisseau.GetComponent<ChangeShipIcon>().enabled = false;
-        //vaisseau.GetComponent<ShipMenuAnimation>().enabled = false;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            InstantiateAllPlayerShips();
+        }
     }
 
-    public override void OnJoinedRoom()
+    public void InstantiatePlayerShip(Photon.Realtime.Player player)
     {
-        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-        int shipNumber = PhotonNetwork.LocalPlayer.GetPlayerNumber();
-        GameObject ship = PhotonNetwork.Instantiate(shipPrefabs[shipNumber].name, spawnPoints[actorNumber % spawnPoints.Length].position, Quaternion.identity);
-        PhotonView photonView = ship.GetComponent<PhotonView>();
-        photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-        ship.transform.position = spawnPoints[actorNumber % spawnPoints.Length].position;
-    }
+        int shipNumber = GetPlayerShipNumber(player);
+        Debug.Log("ShipNumber : "+shipNumber);
+        if (shipNumber >= 0 && shipNumber < shipPrefabs.Count)
+        {
+            GameObject shipPrefab = shipPrefabs[shipNumber];
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        int actorNumber = newPlayer.ActorNumber;
-        int shipNumber = newPlayer.GetPlayerNumber();
-        GameObject ship = PhotonNetwork.Instantiate(shipPrefabs[shipNumber].name, GetNextAvailableSpawnPoint().position, Quaternion.identity);
-        PhotonView photonView = ship.GetComponent<PhotonView>();
-        photonView.TransferOwnership(newPlayer);
-        ship.transform.position = GetNextAvailableSpawnPoint().position;
+            Transform spawnPointTransform = GetNextAvailableSpawnPoint();
+            Vector3 spawnPosition = spawnPointTransform.position;
+            GameObject ship = PhotonNetwork.InstantiateRoomObject(shipPrefab.name, spawnPosition, Quaternion.identity);
+            ships.Add(ship);
+        }
     }
-
-    public override void OnLeftRoom()
+ 
+    // Call this method for each player in the room
+    public void InstantiateAllPlayerShips()
     {
-        // Reset the spawn point index to 0 when the local player leaves the room
-        nextSpawnPointIndex = 0;
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        {
+            InstantiatePlayerShip(player);
+        }
     }
 
     private Transform GetNextAvailableSpawnPoint()
@@ -64,12 +52,17 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
         nextSpawnPointIndex = (nextSpawnPointIndex + 1) % spawnPoints.Length;
         return spawnPoint;
     }
-    private int nextSpawnPointIndex = 0;
+    
 
-    private int GetPlayerNumber()
+
+    public int GetPlayerShipNumber(Photon.Realtime.Player player)
     {
-        int shipNumber = (int)PhotonNetwork.LocalPlayer.CustomProperties["ShipNumber"];
-        return shipNumber;
+        object shipNumberObject;
+        if (player.CustomProperties.TryGetValue("ShipNumber", out shipNumberObject))
+        {
+            return (int)shipNumberObject;
+        }
+        return -1; // Or some other default value
     }
 
 }
