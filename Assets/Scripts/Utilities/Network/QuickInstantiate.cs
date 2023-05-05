@@ -30,9 +30,10 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
         {
             GameObject shipPrefab = shipPrefabs[shipNumber];
 
+
             Transform spawnPointTransform = GetNextAvailableSpawnPoint();
             Vector3 spawnPosition = spawnPointTransform.position;
-            GameObject ship = PhotonNetwork.InstantiateRoomObject(shipPrefab.name, spawnPosition, spawnPointTransform.rotation);
+            GameObject ship = MasterManager.NetworkInstantiate(shipPrefab, spawnPosition, spawnPointTransform.rotation);
             ships.Add(ship);
         }
     }
@@ -52,7 +53,7 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
         nextSpawnPointIndex = (nextSpawnPointIndex + 1) % spawnPoints.Length;
         return spawnPoint;
     }
-    
+
 
 
     public int GetPlayerShipNumber(Photon.Realtime.Player player)
