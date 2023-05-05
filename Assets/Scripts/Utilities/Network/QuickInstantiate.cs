@@ -32,7 +32,7 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
 
             Transform spawnPointTransform = GetNextAvailableSpawnPoint();
             Vector3 spawnPosition = spawnPointTransform.position;
-            GameObject ship = PhotonNetwork.InstantiateRoomObject(shipPrefab.name, spawnPosition, Quaternion.identity);
+            GameObject ship = PhotonNetwork.InstantiateRoomObject(shipPrefab.name, spawnPosition, spawnPointTransform.rotation);
             ships.Add(ship);
         }
     }
