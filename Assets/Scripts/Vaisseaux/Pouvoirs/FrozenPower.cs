@@ -7,20 +7,19 @@ public class FrozenPower : MonoBehaviour
 {
     [SerializeField] private GameObject objectToCreate;
     [SerializeField] private Transform exit;
+    [SerializeField] private float ballSpeed = 35;
     private float canonSecondsTimeout = 1.0f;
-    private float forceToShoot = 100.0f;
     private float iceBallLifeTimeSeconds = 120.0f;
-    
+
     private float timeoutTimeElapsed = 0.0f;
-    private Vector3 force;
-    
+
     private Rigidbody rbIceBall;
 
-    /*private void Awake()
+    private void Awake()
     {
         rbIceBall = GetComponent<Rigidbody>();
-    }*/
-    
+    }
+
     void Update()
     {
         timeoutTimeElapsed += Time.deltaTime;
@@ -34,7 +33,7 @@ public class FrozenPower : MonoBehaviour
         {
             GameObject iceBall = Instantiate(objectToCreate, exit.position, transform.rotation);
             Debug.Log("La boule de glace a été créée");
-            
+
             iceBall.GetComponent<EliminateIceBall>().StartIceBallLife(iceBallLifeTimeSeconds);
             ShootIceBall(iceBall);
             timeoutTimeElapsed = 0;
@@ -44,9 +43,8 @@ public class FrozenPower : MonoBehaviour
     private void ShootIceBall(GameObject iceBall)
     {
         Debug.Log("ShootIceBall a été appelée");
-        force = new Vector3(0, 0, 1) * forceToShoot;
         rbIceBall = iceBall.GetComponent<Rigidbody>();
-        rbIceBall.AddRelativeForce(force);
+        rbIceBall.velocity = new Vector3(-ballSpeed, 0, 0);
         Debug.Log("La boule de glace a été lancée");
     }
 }

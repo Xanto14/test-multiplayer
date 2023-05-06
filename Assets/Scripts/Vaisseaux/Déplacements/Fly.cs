@@ -45,22 +45,24 @@ public class Fly : MonoBehaviour
     }
     */
     private Rigidbody rigidBody;
-    
+
     //private float force = 60000;
     //private float maxPlayerVelocity = 90000;
+    [SerializeField]
     private float force = 900;
+    [SerializeField]
     private float maxPlayerVelocity = 1100;
-    
+
     private float minPlayerVelocity = 0;
     private Acces accès;
-    enum ÉtatsVaisseau {arrêté, enMouvement}
+    enum ÉtatsVaisseau { arrêté, enMouvement }
     private ÉtatsVaisseau état = ÉtatsVaisseau.arrêté;
-    enum PivotVaisseau {nonPivot, ouiPivot}
+    enum PivotVaisseau { nonPivot, ouiPivot }
     private PivotVaisseau pivot = PivotVaisseau.nonPivot;
-    
-    enum DirectionPivot {gauche,droite}
+
+    enum DirectionPivot { gauche, droite }
     private DirectionPivot direction;
-    
+
     private float rotationSpeed = 20.0f;
     private float step;
     private Quaternion originalRotation;
@@ -89,7 +91,7 @@ public class Fly : MonoBehaviour
         originalRotation = enfant.transform.rotation;
         step = rotationSpeed * Time.deltaTime;
     }
-    
+
     private static Vector3[] directions =
     {
         Vector3.forward, Vector3.right,
@@ -112,14 +114,14 @@ public class Fly : MonoBehaviour
     {
         //if (état == ÉtatsVaisseau.enMouvement)
         //{
-            Freiner();
+        Freiner();
         //}
     }
-    
+
     public void Avancer()
     {
         état = ÉtatsVaisseau.enMouvement;
-        rigidBody.AddRelativeForce(directions[0]*(Force),ForceMode.Acceleration); //applique la force sur le vaisseau
+        rigidBody.AddRelativeForce(directions[0] * (Force), ForceMode.Acceleration); //applique la force sur le vaisseau
         float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };  //tableau de la vitesse dans chaque direction
         for (int i = 0; i < velocities.Length; i++)
         {
@@ -133,15 +135,15 @@ public class Fly : MonoBehaviour
     public void Freiner()
     {
         //float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
-        rigidBody.velocity = new Vector3(0,0,rigidBody.velocity.z);
+        rigidBody.velocity = new Vector3(0, 0, rigidBody.velocity.z);
         //état = ÉtatsVaisseau.arrêté;
-        
+
         /*do
         {
             rigidBody.AddRelativeForce(directions[0] * (-Force), ForceMode.Acceleration);
         } while (velocities[0] > minPlayerVelocity && velocities[1] > minPlayerVelocity &&
                  velocities[1] > minPlayerVelocity);*/
-        
+
     }
 
     public void Pivoter(int signe)
@@ -154,8 +156,9 @@ public class Fly : MonoBehaviour
             var twist = Quaternion.Euler(0, 0, 20 * -signe);
             targetRotation = originalRotation * twist;
             currentRotation = enfant.transform.rotation;
-            
-            rigidBody.AddRelativeForce(directions[1] * ((30 * Force / 100) * signe), ForceMode.Force);
+
+
+            rigidBody.AddRelativeForce(directions[1] * ((30 * Force / 100) * signe), ForceMode.Acceleration);
             float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
             for (int i = 0; i < velocities.Length; i++)
             {
@@ -172,7 +175,8 @@ public class Fly : MonoBehaviour
             //step = rotationSpeed * Time.deltaTime;
             //newDirection = Vector3.RotateTowards(currentRotation, targetRotation);
             //enfant.transform.rotation = Quaternion.LookRotation(newDirection);
-            rigidBody.velocity = new Vector3(rigidBody.velocity.x, rigidBody.velocity.y,0);
+
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x, rigidBody.velocity.y, 0);
             targetRotation = originalRotation;
             currentRotation = enfant.transform.rotation;
 
@@ -184,21 +188,16 @@ public class Fly : MonoBehaviour
     {
         float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
         état = ÉtatsVaisseau.arrêté;
-        
-        do
-        {
-            rigidBody.AddRelativeForce(directions[0] * (-(90*Force/100)), ForceMode.Acceleration);
-        } while (velocities[0] > minPlayerVelocity && velocities[1] > minPlayerVelocity &&
-                 velocities[1] > minPlayerVelocity);
+        Freiner();
+        rigidBody.AddRelativeForce(directions[0] * (20 * Force / 100), ForceMode.Acceleration);
     }
-    
+
     private void Update()
     {
-        if ((pivot == PivotVaisseau.ouiPivot && ((direction == DirectionPivot.gauche && currentRotation.z < targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z > targetRotation.z))) || (pivot==PivotVaisseau.nonPivot && ((direction == DirectionPivot.gauche && currentRotation.z > targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z < targetRotation.z))))
+        if ((pivot == PivotVaisseau.ouiPivot && ((direction == DirectionPivot.gauche && currentRotation.z < targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z > targetRotation.z))) || (pivot == PivotVaisseau.nonPivot && ((direction == DirectionPivot.gauche && currentRotation.z > targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z < targetRotation.z))))
         {
             currentRotation = enfant.transform.rotation;
-            enfant.transform.rotation = Quaternion.RotateTowards(currentRotation,targetRotation,step);
+            enfant.transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, step);
         }
-       
     }
 }

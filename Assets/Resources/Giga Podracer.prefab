@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 7093584584028440475}
   - component: {fileID: 7493002986161378027}
   - component: {fileID: 4810710440844790644}
+  - component: {fileID: 8355844629437648710}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -113,7 +114,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2483975416433962951}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -157,6 +158,20 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2483975416433962951}
   m_Enabled: 1
+--- !u!114 &8355844629437648710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2483975416433962951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9cfb1045099ff419234a044e730bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  offset: {x: -6, y: 3, z: 0}
 --- !u!1 &3135203315718780088
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +377,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6203759828986522174}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
@@ -374,7 +389,7 @@ Transform:
   - {fileID: 7093584584028440475}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!65 &2265939966955352118
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -402,7 +417,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &6581250506042116517
 MonoBehaviour:
@@ -416,6 +431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cf9353c3016d44798a77f50f6c38a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: 30000
+  maxPlayerVelocity: 5000
   enfant: {fileID: 1340407028783452652}
 --- !u!114 &5111090928043965552
 MonoBehaviour:
@@ -443,6 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToCreate: {fileID: 3636661421053339687, guid: 2c6410d75590df9498befd72a7c5faab, type: 3}
   exit: {fileID: 2735725285318014819}
+  ballSpeed: 35
 --- !u!114 &8804408746140135610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,6 +521,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 709034788767135091}
+  - {fileID: 8355844629437648710}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
