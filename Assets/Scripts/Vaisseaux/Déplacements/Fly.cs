@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine.InputSystem;
 
 //La classe Fly gère les déplacements des vaisseaux
 //selon la direction du mouvement et la force du moteur.
-public class Fly : MonoBehaviour
+public class Fly : MonoBehaviourPunCallbacks
 {
     /*private float forceToFly = 100;
     private Vector2 movementDirection;
@@ -99,6 +100,10 @@ public class Fly : MonoBehaviour
 
     public void BougerEnAvant()
     {
+        Debug.Log(photonView.Owner);
+        if (!photonView.IsMine)
+            return;
+        
         if (accès.move.action.WasPressedThisFrame() && état == ÉtatsVaisseau.arrêté)
         {
             Avancer();
@@ -112,6 +117,8 @@ public class Fly : MonoBehaviour
 
     public void ArreterBouger()
     {
+        if (!photonView.IsMine)
+            return;
         //if (état == ÉtatsVaisseau.enMouvement)
         //{
         Freiner();
@@ -120,6 +127,9 @@ public class Fly : MonoBehaviour
 
     public void Avancer()
     {
+        if (!photonView.IsMine)
+            return;
+
         état = ÉtatsVaisseau.enMouvement;
         rigidBody.AddRelativeForce(directions[0] * (Force), ForceMode.Acceleration); //applique la force sur le vaisseau
         float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };  //tableau de la vitesse dans chaque direction
@@ -148,6 +158,9 @@ public class Fly : MonoBehaviour
 
     public void Pivoter(int signe)
     {
+        if (!photonView.IsMine)
+            return;
+
         direction = signe == -1 ? DirectionPivot.gauche : DirectionPivot.droite;
         if ((accès.turnRight.action.WasPressedThisFrame() || accès.turnLeft.action.WasPressedThisFrame()) && pivot == PivotVaisseau.nonPivot)
         {
@@ -194,6 +207,8 @@ public class Fly : MonoBehaviour
 
     private void Update()
     {
+        if (!photonView.IsMine)
+            return;
         if ((pivot == PivotVaisseau.ouiPivot && ((direction == DirectionPivot.gauche && currentRotation.z < targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z > targetRotation.z))) || (pivot == PivotVaisseau.nonPivot && ((direction == DirectionPivot.gauche && currentRotation.z > targetRotation.z) || (direction == DirectionPivot.droite && currentRotation.z < targetRotation.z))))
         {
             currentRotation = enfant.transform.rotation;
