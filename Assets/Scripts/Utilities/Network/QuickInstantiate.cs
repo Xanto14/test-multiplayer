@@ -34,6 +34,13 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
             Transform spawnPointTransform = GetNextAvailableSpawnPoint();
             Vector3 spawnPosition = spawnPointTransform.position;
             GameObject ship = MasterManager.NetworkInstantiate(shipPrefab, spawnPosition, spawnPointTransform.rotation);
+            PhotonView pv = ship.GetComponent<PhotonView>();
+            pv.TransferOwnership(player.ActorNumber);
+            if (pv.IsMine)
+            {
+                Camera camera = ship.GetComponentInChildren<Camera>();
+                camera.enabled = true;
+            }
             ships.Add(ship);
         }
     }

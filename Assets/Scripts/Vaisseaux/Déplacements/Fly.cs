@@ -155,7 +155,7 @@ public class Fly : MonoBehaviour
             targetRotation = originalRotation * twist;
             currentRotation = enfant.transform.rotation;
             
-            rigidBody.AddRelativeForce(directions[1] * ((30 * Force / 100) * signe), ForceMode.Acceleration);
+            rigidBody.AddRelativeForce(directions[1] * ((30 * Force / 100) * signe), ForceMode.Force);
             float[] velocities = { rigidBody.velocity.x, rigidBody.velocity.y, rigidBody.velocity.z };
             for (int i = 0; i < velocities.Length; i++)
             {
