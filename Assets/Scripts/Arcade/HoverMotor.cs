@@ -195,7 +195,7 @@ public class HoverMotor : MonoBehaviour
         transform.rotation = rotation;
 
         }
-        
+        Debug.Log(turnInput);
 
     }
     private void OnTriggerEnter(Collider other)
