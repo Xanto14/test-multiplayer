@@ -6,21 +6,34 @@ using Photon.Realtime;
 using System;
 using Photon.Pun.UtilityScripts;
 using System.Linq;
+using TMPro;
 
 public class QuickInstantiate : MonoBehaviourPunCallbacks
 {
     [SerializeField] private List<GameObject> shipPrefabs;
-    [SerializeField] private GameObject playerCameraPrefab;
+    [SerializeField] private TextMeshProUGUI debugText;
     public List<GameObject> ships;
     public Transform[] spawnPoints;
     private int nextSpawnPointIndex = 0;
 
     void Start()
     {
+        //Debug.Log("Local player actor number: " + PhotonNetwork.LocalPlayer.ActorNumber);
         if (PhotonNetwork.IsMasterClient)
         {
+            //Debug.Log("Master client spawning ships.");
             InstantiateAllPlayerShips();
+            //PhotonView photonView = GetComponent<PhotonView>();
+            //photonView.RPC("SetCameraView", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
         }
+        StartCoroutine(SetCameraViewWithDelay());
+    }
+    private IEnumerator SetCameraViewWithDelay()
+    {
+        // Wait for 0.1 seconds
+        yield return new WaitForSeconds(0.5f);
+
+        SetCameraView();
     }
 
     public void InstantiatePlayerShip(Photon.Realtime.Player player)
@@ -39,7 +52,7 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
             Debug.Log(player.NickName);
             Debug.Log("owner du vaisseau avant: " + pv.Owner);
             pv.TransferOwnership(player);
-            Debug.Log("owner du vaisseau avant: " + pv.Owner);
+            Debug.Log("owner du vaisseau apres: " + pv.Owner);
             //if (pv.IsMine)
             //{
             //    Camera camera = ship.GetComponentInChildren<Camera>();
@@ -56,7 +69,67 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
             ships.Add(ship);
         }
     }
- 
+
+    //[PunRPC]
+    //void SetCameraView(int viewID)
+    //{
+    //    Debug.Log("Setting camera view for view ID: " + viewID);
+    //    PhotonView view = PhotonView.Find(viewID);
+    //    if (view != null)
+    //    {
+    //        // Disable camera on all other ships
+    //        foreach (GameObject ship in ships)
+    //        {
+    //            PhotonView shipView = ship.GetComponent<PhotonView>();
+    //            Debug.Log("Ship view ID: " + shipView.ViewID);
+    //            Debug.Log("Ship owner actor number: " + shipView.Owner.ActorNumber);
+    //            Debug.Log("Local player actor number: " + PhotonNetwork.LocalPlayer.ActorNumber);
+    //            if (shipView.ViewID != viewID)
+    //            {
+    //                ship.GetComponentInChildren<Camera>().enabled = false;
+    //            }
+    //            else if (shipView.Owner == PhotonNetwork.LocalPlayer)
+    //            {
+    //                // Enable camera on the ship that matches the player's ownership
+    //                Camera camera = ship.GetComponentInChildren<Camera>();
+    //                if (camera != null)
+    //                {
+    //                    camera.enabled = true;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+    void SetCameraView()
+    {
+        foreach (GameObject ship in ships)
+        {
+            PhotonView shipView = ship.GetComponent<PhotonView>();
+
+            Debug.Log("Ship owner : " + shipView.Owner);
+            Debug.Log("Local player : " + PhotonNetwork.LocalPlayer);
+            Debug.Log("Meme owner = " + (shipView.Owner == PhotonNetwork.LocalPlayer));
+            if (shipView.IsMine)
+            {
+                // Enable camera on the ship that matches the player's ownership
+                Camera camera = ship.GetComponentInChildren<Camera>();
+                if (camera != null)
+                {
+                    camera.enabled = true;
+                }
+            }
+            else
+            {
+                // Disable camera on all other ships
+                Camera camera = ship.GetComponentInChildren<Camera>();
+                if (camera != null)
+                {
+                    camera.enabled = false;
+                }
+            }
+        }
+    }
+
     // Call this method for each player in the room
     public void InstantiateAllPlayerShips()
     {
@@ -64,6 +137,7 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
         {
             InstantiatePlayerShip(player);
         }
+
     }
 
     private Transform GetNextAvailableSpawnPoint()

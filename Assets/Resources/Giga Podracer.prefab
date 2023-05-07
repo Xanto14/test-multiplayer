@@ -91,7 +91,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7093584584028440475
 Transform:
   m_ObjectHideFlags: 0
@@ -432,8 +432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cf9353c3016d44798a77f50f6c38a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 30000
-  maxPlayerVelocity: 5000
+  force: 900
+  maxPlayerVelocity: 1100
   enfant: {fileID: 1340407028783452652}
 --- !u!114 &5111090928043965552
 MonoBehaviour:
