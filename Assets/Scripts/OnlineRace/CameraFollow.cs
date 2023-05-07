@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
+
 public class CameraFollow : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] private Transform target; // The ship's transform to follow

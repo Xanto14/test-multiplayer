@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using System;
 
 public class GameManageOnline : MonoBehaviourPunCallbacks
 {
@@ -23,6 +24,7 @@ public class GameManageOnline : MonoBehaviourPunCallbacks
     public float startTime;
     public bool raceStarted;
     private float elapsedTime;
+    private bool timerStarted = false;
 
     public bool IsPlaying { get { return isRaceStarted; } }
 
@@ -132,10 +134,27 @@ public class GameManageOnline : MonoBehaviourPunCallbacks
     {
         if (isRaceStarted)
         {
-            elapsedTime = (float)PhotonNetwork.Time - startTime;
-            string minutes = ((int)elapsedTime / 60).ToString("00");
-            string seconds = (elapsedTime % 60).ToString("00.00");
-            timerText.text = minutes + ":" + seconds;
+            //// Get the current timestamp from PhotonNetwork.Time
+            //double currentTime = PhotonNetwork.Time;
+
+            //// Convert the timestamp to a DateTime object
+            //DateTime dateTime = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(currentTime);
+
+            //// Convert the DateTime object to a string
+            //string timestamp = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            //// Print the timestamp to the console
+            //Debug.Log("Current timestamp: " + timestamp);
+            //elapsedTime = (float)PhotonNetwork.Time - startTime;
+            //string minutes = ((int)elapsedTime / 60).ToString("00");
+            //string seconds = (elapsedTime % 60).ToString("00.00");
+            //timerText.text = minutes + ":" + seconds;
+            if (!timerStarted)
+            {
+                timerText.GetComponent<Chronometer>().StartChronometer();
+                timerStarted = true;
+
+            }
         }
     }
 }

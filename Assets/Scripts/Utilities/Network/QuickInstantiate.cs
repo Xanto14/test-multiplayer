@@ -10,6 +10,7 @@ using System.Linq;
 public class QuickInstantiate : MonoBehaviourPunCallbacks
 {
     [SerializeField] private List<GameObject> shipPrefabs;
+    [SerializeField] private GameObject playerCameraPrefab;
     public List<GameObject> ships;
     public Transform[] spawnPoints;
     private int nextSpawnPointIndex = 0;
@@ -34,13 +35,24 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
             Transform spawnPointTransform = GetNextAvailableSpawnPoint();
             Vector3 spawnPosition = spawnPointTransform.position;
             GameObject ship = MasterManager.NetworkInstantiate(shipPrefab, spawnPosition, spawnPointTransform.rotation);
-            PhotonView pv = ship.GetComponent<PhotonView>();
-            pv.TransferOwnership(player.ActorNumber);
-            if (pv.IsMine)
-            {
-                Camera camera = ship.GetComponentInChildren<Camera>();
-                camera.enabled = true;
-            }
+            PhotonView pv = ship.GetPhotonView();
+            Debug.Log(player.NickName);
+            Debug.Log("owner du vaisseau avant: " + pv.Owner);
+            pv.TransferOwnership(player);
+            Debug.Log("owner du vaisseau avant: " + pv.Owner);
+            //if (pv.IsMine)
+            //{
+            //    Camera camera = ship.GetComponentInChildren<Camera>();
+            //    camera.enabled = true;
+            //}
+            // Instantiate the camera and assign it to the player
+            //GameObject cameraPrefab = playerCameraPrefab; // Replace with your camera prefab
+            //Vector3 cameraSpawnPosition = ship.transform.position; // Set the camera's position relative to the ship
+            //Quaternion cameraSpawnRotation = ship.transform.rotation; // Set the camera's rotation relative to the ship
+            //GameObject camera = MasterManager.NetworkInstantiate(cameraPrefab, cameraSpawnPosition, cameraSpawnRotation);
+            //camera.transform.SetParent(ship.transform); // Set the ship as the camera's parent
+            //pv.ObservedComponents.Add(camera.GetComponent<Camera>()); // Add the camera to the list of observed components for the photon view
+            //pv.Synchronization = ViewSynchronization.UnreliableOnChange; // Set the synchronization mode for the photon view to unreliable on change
             ships.Add(ship);
         }
     }

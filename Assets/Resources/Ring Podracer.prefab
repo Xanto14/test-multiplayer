@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 253684951999619208}
   - component: {fileID: 22493141514183593}
   - component: {fileID: 3770050242093045338}
+  - component: {fileID: 8567406422421122771}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -302,7 +303,21 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4004798491437913433}
-  m_Enabled: 1
+  m_Enabled: 0
+--- !u!114 &8567406422421122771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4004798491437913433}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9cfb1045099ff419234a044e730bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 3051218526624209045}
+  offset: {x: -6, y: 3, z: 0}
 --- !u!1 &4596424535236344155
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,6 +337,7 @@ GameObject:
   - component: {fileID: 6038323745156698081}
   - component: {fileID: -3555134746326070337}
   - component: {fileID: -3798687530620250931}
+  - component: {fileID: -8794648662413671915}
   m_Layer: 0
   m_Name: Ring Podracer
   m_TagString: Untagged
@@ -371,7 +387,7 @@ Rigidbody:
   m_GameObject: {fileID: 4596424535236344155}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -385,7 +401,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4596424535236344155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3cf9353c3016d44798a77f50f6c38a8, type: 3}
   m_Name: 
@@ -412,7 +428,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4596424535236344155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c00bc1ef1be4f114abd27d3075c94a25, type: 3}
   m_Name: 
@@ -438,7 +454,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4596424535236344155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47c70041974c06542b93c34f56f6933d, type: 3}
   m_Name: 
@@ -475,10 +491,11 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
   - {fileID: -3798687530620250931}
+  - {fileID: 8567406422421122771}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -498,6 +515,22 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &-8794648662413671915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4596424535236344155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c35c4b34dcb69845b2d6672fdb510bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipModelTransform: {fileID: 3051218526624209045}
+  speed: 250
+  turnSpeed: 5
+  smoothing: 0.5
 --- !u!1001 &1843015382988898028
 PrefabInstance:
   m_ObjectHideFlags: 0
