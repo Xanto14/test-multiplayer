@@ -231,7 +231,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1431293620143894395}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Fly, Assembly-CSharp
         m_MethodName: BougerEnAvant
         m_Mode: 1
@@ -247,7 +247,7 @@ MonoBehaviour:
     m_ActionName: Player/Move forward[/Keyboard/w]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1431293620143894395}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Fly, Assembly-CSharp
         m_MethodName: ArreterBouger
         m_Mode: 1
@@ -263,7 +263,7 @@ MonoBehaviour:
     m_ActionName: Player/Braking[/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1431293620143894395}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Fly, Assembly-CSharp
         m_MethodName: Pivoter
         m_Mode: 3
@@ -279,7 +279,7 @@ MonoBehaviour:
     m_ActionName: Player/Turn left[/Keyboard/a]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1431293620143894395}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Fly, Assembly-CSharp
         m_MethodName: Pivoter
         m_Mode: 3
@@ -329,7 +329,6 @@ GameObject:
   - component: {fileID: 2269842288904015797}
   - component: {fileID: 4988012128387250576}
   - component: {fileID: 2731701122229339476}
-  - component: {fileID: 1431293620143894395}
   - component: {fileID: 7453900031758870248}
   - component: {fileID: 8376787818639891922}
   - component: {fileID: 4576538385637189562}
@@ -394,21 +393,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &1431293620143894395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8405913642093083038}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3cf9353c3016d44798a77f50f6c38a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  force: 900
-  maxPlayerVelocity: 1100
-  enfant: {fileID: 7997653407950482411}
 --- !u!114 &7453900031758870248
 MonoBehaviour:
   m_ObjectHideFlags: 0
