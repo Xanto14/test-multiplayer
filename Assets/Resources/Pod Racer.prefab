@@ -336,7 +336,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9206439551559817186}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
@@ -348,7 +348,7 @@ Transform:
   - {fileID: 4651411632406317441}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!65 &9146042902255584372
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -373,10 +373,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &8455780381510487464
 MonoBehaviour:
@@ -390,6 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cf9353c3016d44798a77f50f6c38a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: 900
+  maxPlayerVelocity: 1100
   enfant: {fileID: 2064496143169366767}
 --- !u!114 &3576807808240822820
 MonoBehaviour:
@@ -417,6 +419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToCreate: {fileID: 3636661421053339687, guid: 2c6410d75590df9498befd72a7c5faab, type: 3}
   exit: {fileID: 3079928773224846005}
+  ballSpeed: 35
 --- !u!114 &8884616533325036176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,10 +562,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8583010618332437349, guid: 185a3075a308cfd4ab2a5e381c29c74c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1671736c7ae27d34baacaafdc56e6adc, type: 2}
+    - target: {fileID: -8342363559741143245, guid: 185a3075a308cfd4ab2a5e381c29c74c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e6afaa45e32cd374ca6e3ab113a84a59, type: 2}
+    - target: {fileID: -3272900481172879487, guid: 185a3075a308cfd4ab2a5e381c29c74c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: aaced88fc151fc444b2a3350e85c4103, type: 2}
+    - target: {fileID: -2615213031291595570, guid: 185a3075a308cfd4ab2a5e381c29c74c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e5d5931ff22435f49995f1b9350a3ffb, type: 2}
     - target: {fileID: 919132149155446097, guid: 185a3075a308cfd4ab2a5e381c29c74c, type: 3}
       propertyPath: m_Name
       value: Pod Racer
       objectReference: {fileID: 0}
+    - target: {fileID: 3145451035196575257, guid: 185a3075a308cfd4ab2a5e381c29c74c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e5d5931ff22435f49995f1b9350a3ffb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 185a3075a308cfd4ab2a5e381c29c74c, type: 3}
 --- !u!4 &2064496143169366767 stripped
