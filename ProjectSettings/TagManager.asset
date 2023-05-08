@@ -12,6 +12,7 @@ TagManager:
   - BouletOnline
   - BouletEncre
   - BouletScore
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

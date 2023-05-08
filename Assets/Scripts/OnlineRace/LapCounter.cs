@@ -13,7 +13,7 @@ public class LapTime
 public class LapCounter : MonoBehaviourPunCallbacks
 {
     public static LapCounter Instance;
-
+    [SerializeField] public List<GameObject> checkpointList;
     [SerializeField] private int totalLaps = 3;
     private Dictionary<Player, int> lapCounters = new Dictionary<Player, int>();
     public List<LapTime> lapTimes = new List<LapTime>();
@@ -45,13 +45,17 @@ public class LapCounter : MonoBehaviourPunCallbacks
             lapCounters.Add(player, lapNumber);
         }
 
+        
+            Debug.Log("lapCounters: " + lapCounters[player]);
+            Debug.Log("lapNumber: " + lapNumber);
+        
         if (lapNumber > totalLaps)
         {
             Debug.LogWarning("Player " + player.NickName + " has finished the race!");
             return;
         }
 
-        LapTime lapTime = new LapTime { player = player, time = time };
+        LapTime lapTime = new LapTime {player = player, time = time};
         lapTimes.Add(lapTime);
 
         OnPlayerFinishedLap?.Invoke(player);
@@ -68,10 +72,12 @@ public class LapCounter : MonoBehaviourPunCallbacks
                 break;
             }
         }
+
         if (playerTime < 0f)
         {
             Debug.LogError("Could not find time for player " + player.NickName);
         }
+
         return playerTime;
     }
 }

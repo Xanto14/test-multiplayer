@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: -5618290011847519115}
   - component: {fileID: 709034788767135091}
   - component: {fileID: 2352123987651132687}
+  - component: {fileID: 3799558832622536527}
   m_Layer: 0
   m_Name: Giga Podracer
   m_TagString: Untagged
@@ -542,6 +543,18 @@ MonoBehaviour:
   speed: 250
   turnSpeed: 5
   smoothing: 0.5
+--- !u!114 &3799558832622536527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6203759828986522174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fa6533ed59b2a24691a013c4ec69ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1517902646691657223
 PrefabInstance:
   m_ObjectHideFlags: 0
