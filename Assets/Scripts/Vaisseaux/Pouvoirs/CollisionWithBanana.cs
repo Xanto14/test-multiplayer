@@ -11,6 +11,9 @@ public class CollisionWithBanana : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Il y a une collision avec le player");
+            if (gameObject.GetPhotonView().Owner == other.gameObject.GetPhotonView().Owner)
+                return;
+
             other.gameObject.GetComponent<BananaSlowDown>().SlowDownActivé();
             PhotonNetwork.Destroy(this.gameObject);
         }

@@ -8,7 +8,6 @@ using System;
 
 public class GameManageOnline : MonoBehaviourPunCallbacks
 {
-    
 
     [SerializeField]
     private TextMeshProUGUI countdownText;
@@ -149,6 +148,7 @@ public class GameManageOnline : MonoBehaviourPunCallbacks
             //string minutes = ((int)elapsedTime / 60).ToString("00");
             //string seconds = (elapsedTime % 60).ToString("00.00");
             //timerText.text = minutes + ":" + seconds;
+
             if (!timerStarted)
             {
                 timerText.GetComponent<Chronometer>().StartChronometer();

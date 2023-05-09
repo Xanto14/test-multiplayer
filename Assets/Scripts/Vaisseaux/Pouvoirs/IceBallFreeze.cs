@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IceBallFreeze : MonoBehaviour
 {
-    //private Fly fly; Anne-Marie
+     //private Fly fly; Anne-Marie
     //private float requiredForceToFreez;
     private PlayerMovement playerMovement;
     private float vitesseFreeze = 0f;
@@ -34,7 +34,9 @@ public class IceBallFreeze : MonoBehaviour
     private void Freez()
     {
         Debug.Log("La fonction Freez a été appelée");
+        Debug.Log("speed du joueur touché avant : " + playerMovement.speed);
         playerMovement.speed = vitesseFreeze;
+        Debug.Log("speed du joueur touché apres : " + playerMovement.speed);
         //fly.Force *= 2;
         //fly.Freiner();
         //fly.Force = 0;

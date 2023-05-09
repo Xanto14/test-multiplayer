@@ -11,7 +11,7 @@ using TMPro;
 public class QuickInstantiate : MonoBehaviourPunCallbacks
 {
     [SerializeField] private List<GameObject> shipPrefabs;
-    [SerializeField] private TextMeshProUGUI debugText;
+    [SerializeField] private TextMeshProUGUI playerName;
     public List<GameObject> ships;
     public Transform[] spawnPoints;
     private int nextSpawnPointIndex = 0;
@@ -23,9 +23,11 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
         {
             //Debug.Log("Master client spawning ships.");
             InstantiateAllPlayerShips();
+            
             //PhotonView photonView = GetComponent<PhotonView>();
             //photonView.RPC("SetCameraView", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
         }
+        playerName.text = PhotonNetwork.LocalPlayer.NickName;
         StartCoroutine(SetCameraViewWithDelay());
     }
     private IEnumerator SetCameraViewWithDelay()
@@ -53,6 +55,8 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
             Debug.Log("owner du vaisseau avant: " + pv.Owner);
             pv.TransferOwnership(player);
             Debug.Log("owner du vaisseau apres: " + pv.Owner);
+
+           
             //if (pv.IsMine)
             //{
             //    Camera camera = ship.GetComponentInChildren<Camera>();
@@ -102,7 +106,7 @@ public class QuickInstantiate : MonoBehaviourPunCallbacks
     //}
     void SetCameraView()
     {
-        foreach (GameObject ship in ships)
+        foreach (GameObject ship in GameObject.FindGameObjectsWithTag("Player"))
         {
             PhotonView shipView = ship.GetComponent<PhotonView>();
 
