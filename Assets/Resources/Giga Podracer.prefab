@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 3799558832622536527}
   m_Layer: 0
   m_Name: Giga Podracer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -439,7 +439,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6203759828986522174}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91e12e015af70464b8456a2b139e4307, type: 3}
   m_Name: 

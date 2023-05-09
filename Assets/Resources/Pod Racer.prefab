@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 8215891853239331607}
   m_Layer: 0
   m_Name: Pod Racer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9206439551559817186}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91e12e015af70464b8456a2b139e4307, type: 3}
   m_Name: 

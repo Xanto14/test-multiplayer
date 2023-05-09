@@ -20,8 +20,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     Quaternion rotationModel;
     Quaternion rotation;
 
+    GameManageOnline gameManager;
+
+    BananaSkinPower bananaPower;
+    FrozenPower frozenPower;
+
     void Awake()
     {
+        bananaPower = GetComponent<BananaSkinPower>();
+        frozenPower = GetComponent<FrozenPower>();
+        gameManager = FindObjectOfType<GameManageOnline>();
         shipRigidbody = GetComponent<Rigidbody>();
     }
 
@@ -30,6 +38,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
         if (!photonView.IsMine)
             return;
+
+        if (!gameManager.IsPlaying)
+            return;
+
+        if (Input.GetButton("Jump"))
+        {
+            if (!(bananaPower == null))
+                bananaPower.CreateBanana();
+
+            else if (!(frozenPower == null))
+                frozenPower.CreateIceBall();
+        }
         if (Input.GetButton("Vertical"))
         {
             accelerating = true;

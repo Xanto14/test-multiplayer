@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5499024}
   - component: {fileID: 11421226}
   - component: {fileID: 5798157139508618445}
+  - component: {fileID: 1325199440562561032}
   m_Layer: 0
   m_Name: Asteroid 2
   m_TagString: Enemy
@@ -159,6 +160,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7843216052a7b418323cc2a1a7324c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &1325199440562561032
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141316}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.7
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &146874
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,9 @@ public class ComportementBoulet : MonoBehaviour
             
             if (gameObject.CompareTag("BouletOnline"))
             {
-                other.gameObject.GetComponent<Pointage>().DécrémenterPoints();
+                //other.gameObject.GetComponent<Pointage>().DécrémenterPoints();
+                Vector3 forceRandom = new Vector3(UnityEngine.Random.Range(0, 1000), 0, UnityEngine.Random.Range(0, 1000));
+                other.gameObject.GetComponent<Rigidbody>().AddForce(forceRandom);
                 Destroy(this.gameObject);
             }
             if (gameObject.CompareTag("BouletGlace"))
