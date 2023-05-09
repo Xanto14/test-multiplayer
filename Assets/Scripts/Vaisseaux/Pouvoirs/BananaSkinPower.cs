@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class BananaSkinPower : MonoBehaviour
     
     private float timeoutTimeElapsed = 0.0f;
     private Vector3 force;
+    PhotonView photonView;
     
     private Rigidbody rbBanana;
     /*private void Awake()
@@ -23,12 +25,16 @@ public class BananaSkinPower : MonoBehaviour
         timeoutTimeElapsed += Time.deltaTime;
     }
 
+    private void Awake() =>photonView=GetComponent<PhotonView>();
+
     public void CreateBanana()
     {
+        if (!photonView.IsMine)
+            return;
         Debug.Log("CreateBanana a été appelée");
         if (timeoutTimeElapsed >= canonSecondsTimeout)
         {
-            GameObject banana = Instantiate(objectToCreate, exit.position, transform.rotation);
+            GameObject banana = MasterManager.NetworkInstantiate(objectToCreate, exit.position, transform.rotation);
             Debug.Log("La banane a été créée");
             ThrowBanana(banana);
             timeoutTimeElapsed = 0;

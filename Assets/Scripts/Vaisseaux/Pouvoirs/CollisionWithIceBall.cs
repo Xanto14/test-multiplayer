@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CollisionWithIceBall : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class CollisionWithIceBall : MonoBehaviour
         {
             Debug.Log("Il y a une collision avec le player");
             other.gameObject.GetComponent<IceBallFreeze>().FreezeActivé();
-            Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class EliminateIceBall : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class EliminateIceBall : MonoBehaviour
     private float iceBallLifeTimeSeconds = 0.0f;
     private float lifeTimeElapsed = 0.0f;
 
+    
     public void StartIceBallLife(float lifetimeSeconds)
     {
         iceBallLifeTimeSeconds = lifetimeSeconds;
@@ -26,7 +28,7 @@ public class EliminateIceBall : MonoBehaviour
             lifeTimeElapsed += Time.deltaTime;
             if (IsIceBallLifeEnded())
             {
-                Destroy(this.gameObject);
+                PhotonNetwork.Destroy(this.gameObject);
                 Debug.Log("La boule de glace a été détruite");
             }
         }
