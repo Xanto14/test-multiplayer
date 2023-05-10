@@ -5,6 +5,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManageOnline : MonoBehaviourPunCallbacks
 {
@@ -89,6 +90,12 @@ public class GameManageOnline : MonoBehaviourPunCallbacks
             Debug.LogError("Could not find time for player " + player.NickName);
         }
         return playerTime;
+    }
+    public void OnClickLoadScene(int scene)
+    {
+        if (Time.timeScale == 0f)
+            Time.timeScale = 1f;
+        SceneManager.LoadScene(scene);
     }
     private IEnumerator CountdownCoroutine()
     {

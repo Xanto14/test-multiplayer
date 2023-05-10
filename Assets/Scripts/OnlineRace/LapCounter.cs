@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using TMPro;
 
 public class LapTime
 {
@@ -12,16 +13,25 @@ public class LapTime
 
 public class LapCounter : MonoBehaviourPunCallbacks
 {
+    private Player[] playerList;
+    [SerializeField] private Chronometer chronometer;
     public static LapCounter Instance;
     [SerializeField] public List<GameObject> checkpointList;
-    [SerializeField] private int totalLaps = 3;
+    [SerializeField] private int totalLaps;
     private Dictionary<Player, int> lapCounters = new Dictionary<Player, int>();
     public List<LapTime> lapTimes = new List<LapTime>();
+    private int nbWinners;
+    private List<FinishedPlayer> finishedPlayers = new List<FinishedPlayer>();
+    [SerializeField] public TextMeshProUGUI tempsAffichéFinal;
+    [SerializeField] public TextMeshProUGUI textFinal;
+    [SerializeField] public GameObject GameOverScreen;
 
     public Action<Player> OnPlayerFinishedLap;
 
     private void Awake()
     {
+        playerList = PhotonNetwork.PlayerList;
+        Debug.Log(playerList.Length);
         if (Instance == null)
         {
             Instance = this;
@@ -31,7 +41,10 @@ public class LapCounter : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
-
+    public void AddFinishedPlayer(FinishedPlayer player)
+    {
+        finishedPlayers.Add(player);
+    }
     public void PlayerFinishedLap(Player player, float time)
     {
         int lapNumber = 1;
@@ -45,39 +58,50 @@ public class LapCounter : MonoBehaviourPunCallbacks
             lapCounters.Add(player, lapNumber);
         }
 
-        
-            Debug.Log("lapCounters: " + lapCounters[player]);
-            Debug.Log("lapNumber: " + lapNumber);
-        
-        if (lapNumber > totalLaps)
+        Debug.Log(lapCounters[player] + "/" + totalLaps);
+
+        if (lapNumber == totalLaps)
         {
             Debug.LogWarning("Player " + player.NickName + " has finished the race!");
+            photonView.RPC("AddFinishedPlayer", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer, chronometer);
+            GameOverScreen.SetActive(true);
+            
+            FinishedPlayer finishedPlayer = new FinishedPlayer();
+            finishedPlayer.player = player;
+            finishedPlayer.time = chronometer.TempsTotal;
+            finishedPlayers.Add(finishedPlayer);
+            Debug.Log(finishedPlayers);
+            if (finishedPlayers.Count >= playerList.Length)
+            {
+                Debug.Log("finir partie xddddd");
+    
+
+            }
+
             return;
         }
-        
-        LapTime lapTime = new LapTime {player = player, time = time};
-        lapTimes.Add(lapTime);
 
         OnPlayerFinishedLap?.Invoke(player);
     }
 
-    public float GetPlayerTime(Player player)
+   
+
+    private FinishedPlayer GetFinishedPlayer(Photon.Realtime.Player player)
     {
-        float playerTime = -1f;
-        for (int i = 0; i < lapTimes.Count; i++)
+        foreach (FinishedPlayer finishedPlayer in finishedPlayers)
         {
-            if (lapTimes[i].player == player)
+            if (finishedPlayer.player == player)
             {
-                playerTime = lapTimes[i].time;
-                break;
+                return finishedPlayer;
             }
         }
-
-        if (playerTime < 0f)
-        {
-            Debug.LogError("Could not find time for player " + player.NickName);
-        }
-
-        return playerTime;
+        return default(FinishedPlayer);
     }
+
+    public struct FinishedPlayer
+    {
+        public Photon.Realtime.Player player;
+        public float time;
+    }
+    
 }

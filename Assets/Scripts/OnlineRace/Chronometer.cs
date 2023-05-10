@@ -10,6 +10,7 @@ public class Chronometer : MonoBehaviour
     }
     // The elapsed time in seconds
     private float elapsedTime = 0.0f;
+    public float TempsTotal { get { return elapsedTime; } }  
 
     // Whether the chronometer is currently running
     private bool isRunning = false;
@@ -49,7 +50,7 @@ public class Chronometer : MonoBehaviour
     //}
 
     // Format the time as a string (mm:ss:ms)
-    private string FormatTime(float time)
+    public string FormatTime(float time)
     {
         int minutes = (int)(time / 60.0f);
         int seconds = (int)(time % 60.0f);

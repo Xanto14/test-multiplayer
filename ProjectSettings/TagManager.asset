@@ -13,6 +13,8 @@ TagManager:
   - BouletEncre
   - BouletScore
   - Checkpoint
+  - Enemy
+  - FinishedPlayer
   layers:
   - Default
   - TransparentFX
