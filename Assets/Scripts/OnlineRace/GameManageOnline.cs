@@ -95,6 +95,7 @@ public class GameManageOnline : MonoBehaviourPunCallbacks
     {
         if (Time.timeScale == 0f)
             Time.timeScale = 1f;
+        PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(scene);
     }
     private IEnumerator CountdownCoroutine()

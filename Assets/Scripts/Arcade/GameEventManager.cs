@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -149,6 +150,7 @@ public class GameEventManager : MonoBehaviour
     {
         if (Time.timeScale == 0f)
             Time.timeScale = 1f;
+        
         SceneManager.LoadScene(scene);
     }
 

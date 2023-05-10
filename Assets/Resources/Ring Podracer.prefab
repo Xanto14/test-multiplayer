@@ -338,6 +338,7 @@ GameObject:
   - component: {fileID: -3798687530620250931}
   - component: {fileID: -8794648662413671915}
   - component: {fileID: 1145250309089778708}
+  - component: {fileID: 1722308463171959255}
   m_Layer: 0
   m_Name: Ring Podracer
   m_TagString: Player
@@ -527,6 +528,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fa6533ed59b2a24691a013c4ec69ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishedPrefab: {fileID: 6996644319729914532, guid: 7afd92a223f5f3d4fa03664071bda481, type: 3}
+--- !u!114 &1722308463171959255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4596424535236344155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4f52193bbb1ae46bdb159f6fa00a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6370551563064495549

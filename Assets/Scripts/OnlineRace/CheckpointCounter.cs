@@ -68,7 +68,7 @@ public class CheckpointCounter : MonoBehaviourPunCallbacks
                     GameObject[] listeFiniahedPlayers =GameObject.FindGameObjectsWithTag("FinishedPlayer");
                     lapCounter.GameOverScreen.SetActive(true);
                     Destroy(gameObject);
-                    lapCounter.textFinal.text= PhotonNetwork.LocalPlayer.NickName + " you finished place " + listeFiniahedPlayers.Length+1 +" out of " + PhotonNetwork.PlayerList.Length + " players!!";
+                    lapCounter.textFinal.text= PhotonNetwork.LocalPlayer.NickName + " you finished place " + listeFiniahedPlayers.Length +" out of " + PhotonNetwork.PlayerList.Length + " players!!";
                     lapCounter.tempsAffichéFinal.text = chronometer.FormatTime(chronometer.TempsTotal);
                 }
             }

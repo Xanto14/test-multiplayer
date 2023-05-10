@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 3421897512337821663}
   - component: {fileID: -8387733065411058079}
   - component: {fileID: 5579416481753262076}
+  - component: {fileID: 8852517674131523599}
   m_Layer: 0
   m_Name: Quad Racer
   m_TagString: Player
@@ -626,6 +627,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fa6533ed59b2a24691a013c4ec69ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishedPrefab: {fileID: 6996644319729914532, guid: 7afd92a223f5f3d4fa03664071bda481, type: 3}
+--- !u!114 &8852517674131523599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8405913642093083038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4f52193bbb1ae46bdb159f6fa00a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5040596980056429366
