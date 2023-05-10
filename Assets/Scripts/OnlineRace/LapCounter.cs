@@ -54,7 +54,7 @@ public class LapCounter : MonoBehaviourPunCallbacks
             Debug.LogWarning("Player " + player.NickName + " has finished the race!");
             return;
         }
-
+        
         LapTime lapTime = new LapTime {player = player, time = time};
         lapTimes.Add(lapTime);
 
